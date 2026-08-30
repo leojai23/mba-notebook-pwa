@@ -95,8 +95,9 @@ body { margin: 0; background: #eceaf2; }
   --code-bg: color-mix(in srgb, var(--accent-raw) 16%, #17140f);
 }
 
-/* ---- theme picker (injected into every page header) ---- */
-.theme-picker { margin-left: auto; display: flex; align-self: center; }
+/* ---- theme picker: pinned to the top-right corner of the header ---- */
+.site-header .header-inner { position: relative; padding-right: 210px; }
+.theme-picker { position: absolute; top: 0; right: 0; display: flex; margin: 0; }
 .theme-picker button {
   font: 600 0.68rem/1 Arial, sans-serif; letter-spacing: 0.03em; text-transform: uppercase;
   color: #fff; background: rgba(255,255,255,0.14);
@@ -113,10 +114,10 @@ body { margin: 0; background: #eceaf2; }
   background: #fff; color: var(--accent); border-color: #fff;
 }
 @media (max-width: 640px) {
-  .theme-picker { flex-basis: 100%; margin-left: 0; margin-top: 0.3rem; }
+  .site-header .header-inner { padding-right: 0; }
+  .theme-picker { position: static; width: 100%; margin-top: 0.5rem; }
   .theme-picker button { flex: 1; padding: 0.3rem 0.2rem; font-size: 0.6rem; }
 }
-.theme-home .theme-picker { margin-left: 0; margin-top: 0.5rem; }
 
 * { box-sizing: border-box; }
 
@@ -397,9 +398,12 @@ footer.site-footer {
 .quiz-unanswered-note { font-size: 0.85rem; color: var(--accent); font-family: Arial, sans-serif; margin-top: 0.5rem; display: none; }
 
 
-.theme-home .site-header .header-inner { display: block; }
-.theme-home .site-header .tagline { display: block; margin-top: 0.3rem; font-size: 0.9rem; opacity: 0.85; font-family: Arial, sans-serif; }
-.theme-home .site-header .brand { font-size: 1.3rem; }
+.theme-home .site-header .header-inner { display: block; padding-right: 0; }
+.theme-home .site-header .tagline { display: block; margin-top: 0.3rem; font-size: 0.9rem; opacity: 0.85; font-family: Arial, sans-serif; padding-right: 210px; }
+.theme-home .site-header .brand { font-size: 1.3rem; padding-right: 210px; }
+@media (max-width: 640px) {
+  .theme-home .site-header .brand, .theme-home .site-header .tagline { padding-right: 0; }
+}
 
 .subject-list { list-style: none; padding: 0; margin: 0; }
 .subject-list li {
