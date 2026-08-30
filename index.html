@@ -1,7 +1,11 @@
+<script>try{var _t=localStorage.getItem('mba-theme');if(_t&&_t!=='day')document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
 <title>MBA Study Notebook — Full Notebook App</title>
 <style>
 
 body { margin: 0; background: #eceaf2; }
+:root[data-theme="sepia"] body { background: #e3d9c4; }
+:root[data-theme="dark"] body { background: #101216; }
+:root[data-theme="night"] body { background: #080706; }
 
 .theme-sm {
   --bg: #faf8f5;
@@ -10,6 +14,7 @@ body { margin: 0; background: #eceaf2; }
   --text-soft: #5a5248;
   --border: #e4ddd1;
   --accent: #7a3b2e;
+  --accent-raw: #7a3b2e;
   --accent-soft: #ecdfd4;
   --highlight: #f4ede1;
   --code-bg: #f1ece3;
@@ -24,6 +29,7 @@ body { margin: 0; background: #eceaf2; }
   --text-soft: #55636f;
   --border: #dde4ea;
   --accent: #1e3a5f;
+  --accent-raw: #1e3a5f;
   --accent-soft: #dbe4ee;
   --highlight: #eaf0f6;
   --code-bg: #eef2f6;
@@ -38,6 +44,7 @@ body { margin: 0; background: #eceaf2; }
   --text-soft: #55706a;
   --border: #d9e6e1;
   --accent: #1f5c4a;
+  --accent-raw: #1f5c4a;
   --accent-soft: #d7e8e2;
   --highlight: #eaf4f0;
   --code-bg: #eef5f2;
@@ -52,12 +59,64 @@ body { margin: 0; background: #eceaf2; }
   --text-soft: #5c586e;
   --border: #ded9ea;
   --accent: #3d3567;
+  --accent-raw: #3d3567;
   --accent-soft: #e2ddf0;
   --highlight: #ecebf5;
   --code-bg: #ecebf5;
   --shadow: 0 1px 3px rgba(33,31,46,0.08);
   --maxw: 900px;
 }
+
+/* ---- reading themes (set on <html data-theme=...>; "day" = no attribute) ---- */
+:root[data-theme="sepia"] [class*="theme-"] {
+  --bg: #ece3d2; --bg-panel: #f6efe0; --text: #3a3226; --text-soft: #6b5f4c;
+  --border: #d9ccb4; --shadow: 0 1px 3px rgba(80,60,30,0.14);
+  --accent: var(--accent-raw);
+  --accent-soft: color-mix(in srgb, var(--accent-raw) 22%, #f6efe0);
+  --highlight: color-mix(in srgb, var(--accent-raw) 10%, #f6efe0);
+  --code-bg: color-mix(in srgb, var(--accent-raw) 10%, #f6efe0);
+}
+:root[data-theme="dark"] [class*="theme-"] {
+  color-scheme: dark;
+  --bg: #15171c; --bg-panel: #1e2128; --text: #dfe3ec; --text-soft: #99a1b3;
+  --border: #31353f; --shadow: 0 1px 3px rgba(0,0,0,0.45);
+  --accent: color-mix(in srgb, var(--accent-raw) 55%, #dfe6f5);
+  --accent-soft: color-mix(in srgb, var(--accent-raw) 30%, #1e2128);
+  --highlight: color-mix(in srgb, var(--accent-raw) 16%, #1e2128);
+  --code-bg: color-mix(in srgb, var(--accent-raw) 16%, #1e2128);
+}
+:root[data-theme="night"] [class*="theme-"] {
+  color-scheme: dark;
+  --bg: #0f0d0b; --bg-panel: #17140f; --text: #c9b89c; --text-soft: #8f8069;
+  --border: #2a251d; --shadow: 0 1px 3px rgba(0,0,0,0.55);
+  --accent: color-mix(in srgb, var(--accent-raw) 50%, #e9d7b2);
+  --accent-soft: color-mix(in srgb, var(--accent-raw) 28%, #17140f);
+  --highlight: color-mix(in srgb, var(--accent-raw) 16%, #17140f);
+  --code-bg: color-mix(in srgb, var(--accent-raw) 16%, #17140f);
+}
+
+/* ---- theme picker (injected into every page header) ---- */
+.theme-picker { margin-left: auto; display: flex; align-self: center; }
+.theme-picker button {
+  font: 600 0.68rem/1 Arial, sans-serif; letter-spacing: 0.03em; text-transform: uppercase;
+  color: #fff; background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.3); border-right-width: 0;
+  padding: 0.32rem 0.5rem; cursor: pointer;
+}
+.theme-picker button:first-child { border-radius: 4px 0 0 4px; }
+.theme-picker button:last-child { border-radius: 0 4px 4px 0; border-right-width: 1px; }
+.theme-picker button:hover { background: rgba(255,255,255,0.24); }
+:root:not([data-theme]) .theme-picker button[data-set-theme="day"],
+:root[data-theme="sepia"] .theme-picker button[data-set-theme="sepia"],
+:root[data-theme="dark"] .theme-picker button[data-set-theme="dark"],
+:root[data-theme="night"] .theme-picker button[data-set-theme="night"] {
+  background: #fff; color: var(--accent); border-color: #fff;
+}
+@media (max-width: 640px) {
+  .theme-picker { flex-basis: 100%; margin-left: 0; margin-top: 0.3rem; }
+  .theme-picker button { flex: 1; padding: 0.3rem 0.2rem; font-size: 0.6rem; }
+}
+.theme-home .theme-picker { margin-left: 0; margin-top: 0.5rem; }
 
 * { box-sizing: border-box; }
 
@@ -411,6 +470,12 @@ footer.site-footer {
   <div class="header-inner">
     <div class="brand">MBA Study Notebook</div>
     <div class="tagline">Personal reference notes — built for classroom teaching and exam preparation</div>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -467,6 +532,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs">Home</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -537,6 +608,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / Unit I</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -621,6 +698,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -793,6 +876,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -967,6 +1056,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -1161,6 +1256,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -1325,6 +1426,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -1498,6 +1605,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -1699,6 +1812,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -1768,6 +1887,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -1978,6 +2103,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit1">Unit I</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -2078,6 +2209,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / Unit II</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -2162,6 +2299,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -2319,6 +2462,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -2469,6 +2618,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -2602,6 +2757,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -2751,6 +2912,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -2884,6 +3051,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3022,6 +3195,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3090,6 +3269,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3300,6 +3485,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit2">Unit II</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3395,6 +3586,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / Unit III</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3486,6 +3683,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3633,6 +3836,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3777,6 +3986,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -3916,6 +4131,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4059,6 +4280,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4186,6 +4413,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4328,6 +4561,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Topic 7</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4475,6 +4714,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4544,6 +4789,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4755,6 +5006,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit3">Unit III</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4851,6 +5108,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / Unit IV</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -4942,6 +5205,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -5072,6 +5341,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -5228,6 +5503,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -5386,6 +5667,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -5522,6 +5809,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -5661,6 +5954,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -5790,6 +6089,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Topic 7</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -5940,6 +6245,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6009,6 +6320,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6220,6 +6537,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit4">Unit IV</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6319,6 +6642,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / Unit V</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6403,6 +6732,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6533,6 +6868,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6663,6 +7004,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6805,6 +7152,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -6928,6 +7281,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7055,6 +7414,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7185,6 +7550,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7254,6 +7625,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7464,6 +7841,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-unit5">Unit V</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7556,6 +7939,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / Assessments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7605,6 +7994,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-assessments">Assessments</a> / CIA Test I</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7675,6 +8070,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-assessments">Assessments</a> / CIA Test II</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7745,6 +8146,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Strategic Management — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#sm">Home</a> / <a href="#sm-assessments">Assessments</a> / CIA Test III</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7815,6 +8222,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs">Home</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7879,6 +8292,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / Unit I</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -7963,6 +8382,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -8105,6 +8530,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -8254,6 +8685,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -8397,6 +8834,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -8562,6 +9005,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -8714,6 +9163,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -8870,6 +9325,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -8943,6 +9404,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -9153,6 +9620,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit1">Unit I</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -9248,6 +9721,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / Unit II</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -9280,6 +9759,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -9432,6 +9917,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -9569,6 +10060,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -9725,6 +10222,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -9892,6 +10395,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10061,6 +10570,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10210,6 +10725,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 7</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10368,6 +10889,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Topic 8</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10530,6 +11057,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10603,6 +11136,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10815,6 +11354,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit2">Unit II</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10915,6 +11460,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / Unit III</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -10945,6 +11496,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -11101,6 +11658,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -11258,6 +11821,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -11428,6 +11997,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -11561,6 +12136,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -11693,6 +12274,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -11842,6 +12429,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -11914,6 +12507,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12124,6 +12723,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit3">Unit III</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12219,6 +12824,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / Unit IV</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12249,6 +12860,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12396,6 +13013,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12542,6 +13165,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12682,6 +13311,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12815,6 +13450,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -12962,6 +13603,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13105,6 +13752,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13178,6 +13831,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13388,6 +14047,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit4">Unit IV</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13483,6 +14148,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / Unit V</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13513,6 +14184,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13651,6 +14328,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13804,6 +14487,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -13946,6 +14635,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14087,6 +14782,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14226,6 +14927,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14361,6 +15068,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14436,6 +15149,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14646,6 +15365,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Banking and Financial Services — Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#bfs">Home</a> / <a href="#bfs-unit5">Unit V</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14741,6 +15466,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs">Home</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14805,6 +15536,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / Unit I</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14889,6 +15626,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -14997,6 +15740,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15099,6 +15848,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15200,6 +15955,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15307,6 +16068,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15418,6 +16185,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15518,6 +16291,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15592,6 +16371,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15803,6 +16588,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit1">Unit I</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15896,6 +16687,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / Unit II</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -15980,6 +16777,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16078,6 +16881,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16175,6 +16984,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16274,6 +17089,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16375,6 +17196,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16477,6 +17304,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16572,6 +17405,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16640,6 +17479,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16851,6 +17696,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit2">Unit II</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -16941,6 +17792,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / Unit III</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17025,6 +17882,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17134,6 +17997,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17240,6 +18109,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17351,6 +18226,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17450,6 +18331,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17553,6 +18440,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17649,6 +18542,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17722,6 +18621,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -17933,6 +18838,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit3">Unit III</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18026,6 +18937,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / Unit IV</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18110,6 +19027,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18212,6 +19135,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18333,6 +19262,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18437,6 +19372,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18536,6 +19477,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18630,6 +19577,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18737,6 +19690,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -18812,6 +19771,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19023,6 +19988,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit4">Unit IV</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19113,6 +20084,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / Unit V</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19197,6 +20174,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Topic 1</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19296,6 +20279,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Topic 2</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19397,6 +20386,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Topic 3</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19491,6 +20486,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Topic 4</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19594,6 +20595,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Topic 5</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19697,6 +20704,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Topic 6</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19788,6 +20801,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Assignments</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -19854,6 +20873,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Quiz</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -20065,6 +21090,12 @@ footer.site-footer {
   <div class="header-inner">
     <span class="brand">Payroll Management &mdash; Course Notes<br><span class="faculty">Faculty: Kajashri K</span></span>
     <span class="crumbs"><a href="#payroll">Home</a> / <a href="#payroll-unit5">Unit V</a> / Case Study</span>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
   </div>
 </header>
 
@@ -20176,6 +21207,35 @@ footer.site-footer {
   }
   window.addEventListener('hashchange', routeFromHash);
   window.addEventListener('DOMContentLoaded', routeFromHash);
+})();
+</script>
+
+
+
+<script>
+(function () {
+  var KEY = "mba-theme";
+  var VALID = ["day", "sepia", "dark", "night"];
+  var META = { day: "#3d3567", sepia: "#4a4132", dark: "#20242c", night: "#1c1712" };
+  var metaEl = document.querySelector('meta[name="theme-color"]');
+
+  function apply(t) {
+    if (VALID.indexOf(t) < 0) t = "day";
+    if (t === "day") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", t);
+    if (metaEl) metaEl.setAttribute("content", META[t]);
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+
+  document.addEventListener("click", function (e) {
+    var b = e.target;
+    while (b && b.getAttribute && !b.getAttribute("data-set-theme")) b = b.parentNode;
+    if (b && b.getAttribute && b.getAttribute("data-set-theme")) apply(b.getAttribute("data-set-theme"));
+  });
+
+  var saved = "day";
+  try { saved = localStorage.getItem(KEY) || "day"; } catch (e) {}
+  apply(saved);
 })();
 </script>
 
