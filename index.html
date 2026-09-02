@@ -519,11 +519,32 @@ footer.site-footer {
 .hub-list li { border: 1px solid var(--border); background: var(--bg-panel); border-radius: 8px; margin-bottom: 0.55rem; padding: 0.8rem 1.1rem; box-shadow: var(--shadow); }
 .hub-list li a { font-size: 1rem; font-family: Arial, sans-serif; }
 .hub-list b { color: var(--accent); }
+.nb-hub-prog { font: normal 0.72rem/1 Arial, sans-serif; color: var(--text-soft); letter-spacing: 0.02em; }
+.nb-linkbtn { border: 0; background: none; color: var(--accent); cursor: pointer; font: 0.85rem Arial, sans-serif; text-decoration: underline; padding: 0; }
+
+/* ---- prev / next bar (injected into topic + notes pages) ---- */
+.nb-pn {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 0.7rem;
+  margin: 0.3rem 0 1.5rem; padding: 0.45rem 0;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  font: 0.85rem/1.35 Arial, sans-serif;
+}
+.nb-pn a { color: var(--accent); text-decoration: none; max-width: 47%; }
+.nb-pn a:hover { text-decoration: underline; }
+.nb-pn .pn-next { margin-left: auto; text-align: right; }
+
+/* ---- reading progress (sidebar) ---- */
+.sidebar .nb-progress { margin: -0.1rem 0 0.85rem; font-family: Arial, sans-serif; }
+.sidebar .nb-progress span { display: block; font-size: 0.7rem; color: var(--text-soft); margin-bottom: 0.28rem; }
+.sidebar .nb-progress i { display: block; height: 4px; border-radius: 3px; background: var(--border); overflow: hidden; }
+.sidebar .nb-progress i::before { content: ""; display: block; height: 100%; width: var(--p, 0%); background: var(--accent); }
+.sidebar ol li.read > a::before { content: "\2713\00a0"; color: var(--accent); font-weight: bold; }
+#nb-resume { margin: 0.6rem 0 0 !important; }
 
 /* ---- print ---- */
 @media print {
   .nb-fab, #nb-print-menu, #nb-search, .theme-picker,
-  .sidebar, .page-nav, .back-link { display: none !important; }
+  .sidebar, .page-nav, .back-link, .nb-pn, #nb-resume { display: none !important; }
   .page[data-print-break] { break-before: page; }
   html, body, .page { background: #fff !important; color: #000 !important; }
   /* NB: do NOT force .page display here - the hash router / print-unit JS
@@ -23494,7 +23515,7 @@ footer.site-footer {
 <div class="layout" style="grid-template-columns:1fr;">
 <h1>All Unit Notes</h1>
 <p class="subtitle">Every unit’s simplified key points, one link each &mdash; the fastest revision path across all three subjects.</p>
-<h2>Strategic Management</h2>
+<h2>Strategic Management <span class="nb-hub-prog" data-course="sm"></span></h2>
 <ul class="hub-list">
 <li><a href="#sm-unit1-notes"><b>Unit I</b> &mdash; Strategy and Process</a></li>
 <li><a href="#sm-unit2-notes"><b>Unit II</b> &mdash; Competitive Advantage</a></li>
@@ -23502,7 +23523,7 @@ footer.site-footer {
 <li><a href="#sm-unit4-notes"><b>Unit IV</b> &mdash; Strategy Implementation &amp; Evaluation</a></li>
 <li><a href="#sm-unit5-notes"><b>Unit V</b> &mdash; Other Strategic Issues</a></li>
 </ul>
-<h2>Banking and Financial Services</h2>
+<h2>Banking and Financial Services <span class="nb-hub-prog" data-course="bfs"></span></h2>
 <ul class="hub-list">
 <li><a href="#bfs-unit1-notes"><b>Unit I</b> &mdash; Introduction to Indian Banking System</a></li>
 <li><a href="#bfs-unit2-notes"><b>Unit II</b> &mdash; Products &amp; Risk Management</a></li>
@@ -23510,7 +23531,7 @@ footer.site-footer {
 <li><a href="#bfs-unit4-notes"><b>Unit IV</b> &mdash; Asset-Based Financial Services</a></li>
 <li><a href="#bfs-unit5-notes"><b>Unit V</b> &mdash; Insurance and Financial Services</a></li>
 </ul>
-<h2>Payroll</h2>
+<h2>Payroll <span class="nb-hub-prog" data-course="payroll"></span></h2>
 <ul class="hub-list">
 <li><a href="#payroll-unit1-notes"><b>Unit I</b> &mdash; Introduction to Payroll Management</a></li>
 <li><a href="#payroll-unit2-notes"><b>Unit II</b> &mdash; Laws and Practices</a></li>
@@ -23518,6 +23539,7 @@ footer.site-footer {
 <li><a href="#payroll-unit4-notes"><b>Unit IV</b> &mdash; Payroll Software</a></li>
 <li><a href="#payroll-unit5-notes"><b>Unit V</b> &mdash; Advanced Payroll</a></li>
 </ul>
+<p style="margin-top:1.6rem"><button type="button" id="nb-prog-reset" class="nb-linkbtn">Reset reading progress</button></p>
 </div>
 <footer class="site-footer">MBA Study Notebook &middot; revision hub</footer>
 </div>
@@ -23696,6 +23718,139 @@ footer.site-footer {
     if (menu.classList.contains('open') && e.target !== btn && !menu.contains(e.target)) close();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
+
+
+
+<script>
+(function () {
+  var SUBJ_SEQ = {"sm": ["sm-unit1-topic1", "sm-unit1-topic2", "sm-unit1-topic3", "sm-unit1-topic4", "sm-unit1-topic5", "sm-unit1-topic6", "sm-unit1-notes", "sm-unit2-topic1", "sm-unit2-topic2", "sm-unit2-topic3", "sm-unit2-topic4", "sm-unit2-topic5", "sm-unit2-topic6", "sm-unit2-notes", "sm-unit3-topic1", "sm-unit3-topic2", "sm-unit3-topic3", "sm-unit3-topic4", "sm-unit3-topic5", "sm-unit3-topic6", "sm-unit3-topic7", "sm-unit3-notes", "sm-unit4-topic1", "sm-unit4-topic2", "sm-unit4-topic3", "sm-unit4-topic4", "sm-unit4-topic5", "sm-unit4-topic6", "sm-unit4-topic7", "sm-unit4-notes", "sm-unit5-topic1", "sm-unit5-topic2", "sm-unit5-topic3", "sm-unit5-topic4", "sm-unit5-topic5", "sm-unit5-topic6", "sm-unit5-notes"], "bfs": ["bfs-unit1-topic1", "bfs-unit1-topic2", "bfs-unit1-topic3", "bfs-unit1-topic4", "bfs-unit1-topic5", "bfs-unit1-topic6", "bfs-unit1-notes", "bfs-unit2-topic1", "bfs-unit2-topic2", "bfs-unit2-topic3", "bfs-unit2-topic4", "bfs-unit2-topic5", "bfs-unit2-topic6", "bfs-unit2-topic7", "bfs-unit2-topic8", "bfs-unit2-notes", "bfs-unit3-topic1", "bfs-unit3-topic2", "bfs-unit3-topic3", "bfs-unit3-topic4", "bfs-unit3-topic5", "bfs-unit3-topic6", "bfs-unit3-notes", "bfs-unit4-topic1", "bfs-unit4-topic2", "bfs-unit4-topic3", "bfs-unit4-topic4", "bfs-unit4-topic5", "bfs-unit4-topic6", "bfs-unit4-notes", "bfs-unit5-topic1", "bfs-unit5-topic2", "bfs-unit5-topic3", "bfs-unit5-topic4", "bfs-unit5-topic5", "bfs-unit5-topic6", "bfs-unit5-notes"], "payroll": ["payroll-unit1-topic1", "payroll-unit1-topic2", "payroll-unit1-topic3", "payroll-unit1-topic4", "payroll-unit1-topic5", "payroll-unit1-topic6", "payroll-unit1-notes", "payroll-unit2-topic1", "payroll-unit2-topic2", "payroll-unit2-topic3", "payroll-unit2-topic4", "payroll-unit2-topic5", "payroll-unit2-topic6", "payroll-unit2-notes", "payroll-unit3-topic1", "payroll-unit3-topic2", "payroll-unit3-topic3", "payroll-unit3-topic4", "payroll-unit3-topic5", "payroll-unit3-topic6", "payroll-unit3-notes", "payroll-unit4-topic1", "payroll-unit4-topic2", "payroll-unit4-topic3", "payroll-unit4-topic4", "payroll-unit4-topic5", "payroll-unit4-topic6", "payroll-unit4-notes", "payroll-unit5-topic1", "payroll-unit5-topic2", "payroll-unit5-topic3", "payroll-unit5-topic4", "payroll-unit5-topic5", "payroll-unit5-topic6", "payroll-unit5-notes"]};
+  var UNIT_SEQ = {"sm-unit1": ["sm-unit1-topic1", "sm-unit1-topic2", "sm-unit1-topic3", "sm-unit1-topic4", "sm-unit1-topic5", "sm-unit1-topic6", "sm-unit1-notes"], "sm-unit2": ["sm-unit2-topic1", "sm-unit2-topic2", "sm-unit2-topic3", "sm-unit2-topic4", "sm-unit2-topic5", "sm-unit2-topic6", "sm-unit2-notes"], "sm-unit3": ["sm-unit3-topic1", "sm-unit3-topic2", "sm-unit3-topic3", "sm-unit3-topic4", "sm-unit3-topic5", "sm-unit3-topic6", "sm-unit3-topic7", "sm-unit3-notes"], "sm-unit4": ["sm-unit4-topic1", "sm-unit4-topic2", "sm-unit4-topic3", "sm-unit4-topic4", "sm-unit4-topic5", "sm-unit4-topic6", "sm-unit4-topic7", "sm-unit4-notes"], "sm-unit5": ["sm-unit5-topic1", "sm-unit5-topic2", "sm-unit5-topic3", "sm-unit5-topic4", "sm-unit5-topic5", "sm-unit5-topic6", "sm-unit5-notes"], "bfs-unit1": ["bfs-unit1-topic1", "bfs-unit1-topic2", "bfs-unit1-topic3", "bfs-unit1-topic4", "bfs-unit1-topic5", "bfs-unit1-topic6", "bfs-unit1-notes"], "bfs-unit2": ["bfs-unit2-topic1", "bfs-unit2-topic2", "bfs-unit2-topic3", "bfs-unit2-topic4", "bfs-unit2-topic5", "bfs-unit2-topic6", "bfs-unit2-topic7", "bfs-unit2-topic8", "bfs-unit2-notes"], "bfs-unit3": ["bfs-unit3-topic1", "bfs-unit3-topic2", "bfs-unit3-topic3", "bfs-unit3-topic4", "bfs-unit3-topic5", "bfs-unit3-topic6", "bfs-unit3-notes"], "bfs-unit4": ["bfs-unit4-topic1", "bfs-unit4-topic2", "bfs-unit4-topic3", "bfs-unit4-topic4", "bfs-unit4-topic5", "bfs-unit4-topic6", "bfs-unit4-notes"], "bfs-unit5": ["bfs-unit5-topic1", "bfs-unit5-topic2", "bfs-unit5-topic3", "bfs-unit5-topic4", "bfs-unit5-topic5", "bfs-unit5-topic6", "bfs-unit5-notes"], "payroll-unit1": ["payroll-unit1-topic1", "payroll-unit1-topic2", "payroll-unit1-topic3", "payroll-unit1-topic4", "payroll-unit1-topic5", "payroll-unit1-topic6", "payroll-unit1-notes"], "payroll-unit2": ["payroll-unit2-topic1", "payroll-unit2-topic2", "payroll-unit2-topic3", "payroll-unit2-topic4", "payroll-unit2-topic5", "payroll-unit2-topic6", "payroll-unit2-notes"], "payroll-unit3": ["payroll-unit3-topic1", "payroll-unit3-topic2", "payroll-unit3-topic3", "payroll-unit3-topic4", "payroll-unit3-topic5", "payroll-unit3-topic6", "payroll-unit3-notes"], "payroll-unit4": ["payroll-unit4-topic1", "payroll-unit4-topic2", "payroll-unit4-topic3", "payroll-unit4-topic4", "payroll-unit4-topic5", "payroll-unit4-topic6", "payroll-unit4-notes"], "payroll-unit5": ["payroll-unit5-topic1", "payroll-unit5-topic2", "payroll-unit5-topic3", "payroll-unit5-topic4", "payroll-unit5-topic5", "payroll-unit5-topic6", "payroll-unit5-notes"]};
+  var TITLES = {"all-notes": "All Unit Notes", "sm": "Strategic Management", "sm-unit1": "Unit I — Strategy and Process", "sm-unit1-topic1": "Conceptual Framework for Strategic Management", "sm-unit1-topic2": "The Concept of Strategy and the Strategy Formation Process", "sm-unit1-topic3": "Stakeholders in Business", "sm-unit1-topic4": "Vision, Mission and Purpose", "sm-unit1-topic5": "Business Objectives and Goals", "sm-unit1-topic6": "Corporate Governance and Social Responsibility", "sm-unit1-assignments": "Unit I — Assignments", "sm-unit1-quiz": "Unit I — Quiz", "sm-unit1-notes": "Unit I &mdash; Key Notes", "sm-unit1-case-study": "Case Study — Applying Unit I", "sm-unit2": "Unit II — Competitive Advantage", "sm-unit2-topic1": "External Environment and Porter's Five Forces Model", "sm-unit2-topic2": "Competitive Changes during Industry Evolution", "sm-unit2-topic3": "Globalisation, Industry Structure and National Context", "sm-unit2-topic4": "Core Competencies and the Building Blocks of Competitive Advantage", "sm-unit2-topic5": "Low Cost and Differentiation", "sm-unit2-topic6": "Distinctive Competencies: Avoiding Failure and Sustaining Competitive Advantage", "sm-unit2-assignments": "Unit II — Assignments", "sm-unit2-quiz": "Unit II — Quiz", "sm-unit2-notes": "Unit II &mdash; Key Notes", "sm-unit2-case-study": "Case Study — Applying Unit II", "sm-unit3": "Unit III — Strategies", "sm-unit3-topic1": "Grand Strategies: Stability, Expansion, Retrenchment and Combination", "sm-unit3-topic2": "Business-Level Strategy and Strategy in the Global Environment", "sm-unit3-topic3": "Corporate Strategy: Vertical Integration and Diversification", "sm-unit3-topic4": "Strategic Alliances and Strategic Analysis &amp; Choice", "sm-unit3-topic5": "Managing Growth and ETOP", "sm-unit3-topic6": "Corporate Portfolio Analysis I: SWOT, GAP Analysis and the BCG Matrix", "sm-unit3-topic7": "Corporate Portfolio Analysis II: McKinsey's 7S, GE 9-Cell, Selection of Matrix and Balanced Scorecard", "sm-unit3-assignments": "Unit III — Assignments", "sm-unit3-quiz": "Unit III — Quiz", "sm-unit3-notes": "Unit III &mdash; Key Notes", "sm-unit3-case-study": "Case Study — Applying Unit III", "sm-unit4": "Unit IV — Strategy Implementation &amp; Evaluation", "sm-unit4-topic1": "The Implementation Process and Resource Allocation", "sm-unit4-topic2": "Designing Organisational Structure", "sm-unit4-topic3": "Designing Strategic Control Systems", "sm-unit4-topic4": "Matching Structure and Control to Strategy", "sm-unit4-topic5": "Implementing Strategic Change", "sm-unit4-topic6": "Politics, Power and Conflict", "sm-unit4-topic7": "Techniques of Strategic Evaluation and Control", "sm-unit4-assignments": "Unit IV — Assignments", "sm-unit4-quiz": "Unit IV — Quiz", "sm-unit4-notes": "Unit IV &mdash; Key Notes", "sm-unit4-case-study": "Case Study — Applying Unit IV", "sm-unit5": "Unit V — Other Strategic Issues", "sm-unit5-topic1": "Managing Technology and Innovation", "sm-unit5-topic2": "Strategic Issues for Non-Profit Organisations", "sm-unit5-topic3": "New Business Models and Strategies for the Internet Economy", "sm-unit5-topic4": "Recent Trends I: Strategic Thinking and Organisational Culture", "sm-unit5-topic5": "Recent Trends II: Change Management and Strategic Management in a Globalised Economy", "sm-unit5-topic6": "Challenges in Strategic Management", "sm-unit5-assignments": "Unit V — Assignments", "sm-unit5-quiz": "Unit V — Quiz", "sm-unit5-notes": "Unit V &mdash; Key Notes", "sm-unit5-case-study": "Case Study — Applying Unit V", "sm-assessments": "Continuous Internal Assessment", "sm-assessments-cia1": "Continuous Internal Assessment Test I", "sm-assessments-cia2": "Continuous Internal Assessment Test II", "sm-assessments-cia3": "Continuous Internal Assessment Test III", "bfs": "Banking and Financial Services", "bfs-unit1": "Unit I — Introduction to Indian Banking System", "bfs-unit1-topic1": "Overview of the Indian Banking System: Structure and Functions", "bfs-unit1-topic2": "Key Regulations I: The RBI Act and Banking Regulation Act", "bfs-unit1-topic3": "Key Regulations II: The Negotiable Instruments Act and CRR/SLR Provisions", "bfs-unit1-topic4": "Provisions for Non-Performing Assets (NPAs)", "bfs-unit1-topic5": "Bank Financial Statements: Balance Sheet and Income Statement", "bfs-unit1-topic6": "The CAMELS Rating Framework", "bfs-unit1-assignments": "Unit I — Assignments", "bfs-unit1-quiz": "Unit I — Quiz", "bfs-unit1-notes": "Unit I &mdash; Key Notes", "bfs-unit1-case-study": "Case Study — Applying Unit I", "bfs-unit2": "Unit II — Products &amp; Risk Management", "bfs-unit2-topic1": "Capital Adequacy: The Basel Framework and CRAR", "bfs-unit2-topic2": "Deposit and Non-Deposit Sources: Designing and Pricing Deposit Schemes", "bfs-unit2-topic3": "Loan Management and Investment Management", "bfs-unit2-topic4": "Asset and Liability Management (ALM)", "bfs-unit2-topic5": "Financial Distress: Signals to Borrowers and Predictive Models", "bfs-unit2-topic6": "Risk Management I: Interest Rate, Forex, and Credit Risk", "bfs-unit2-topic7": "Risk Management II: Market, Operational, and Solvency Risk; Current Issues on NPAs", "bfs-unit2-topic8": "M&amp;A of Banks into the Securities Market", "bfs-unit2-assignments": "Unit II — Assignments", "bfs-unit2-quiz": "Unit II — Quiz", "bfs-unit2-notes": "Unit II &mdash; Key Notes", "bfs-unit2-case-study": "Case Study — Applying Unit II", "bfs-unit3": "Unit III — Developments in Banking Technology", "bfs-unit3-topic1": "Payment Systems in India", "bfs-unit3-topic2": "Plastic Money and E-Money", "bfs-unit3-topic3": "Forecasting Cash Demand at ATMs", "bfs-unit3-topic4": "The Information Technology Act, 2000", "bfs-unit3-topic5": "RBI's Financial Sector Technology Vision", "bfs-unit3-topic6": "Security Threats in E-Banking", "bfs-unit3-assignments": "Unit III — Assignments", "bfs-unit3-quiz": "Unit III — Quiz", "bfs-unit3-notes": "Unit III &mdash; Key Notes", "bfs-unit3-case-study": "Case Study — Applying Unit III", "bfs-unit4": "Unit IV — Asset-Based Financial Services", "bfs-unit4-topic1": "Non-Banking Financial Companies (NBFCs): RBI Framework", "bfs-unit4-topic2": "Leasing and Hire Purchase: Financial Evaluation", "bfs-unit4-topic3": "Venture Capital and Private Equity", "bfs-unit4-topic4": "Housing Finance", "bfs-unit4-topic5": "IPO and Underwriting", "bfs-unit4-topic6": "Mutual Funds", "bfs-unit4-assignments": "Unit IV — Assignments", "bfs-unit4-quiz": "Unit IV — Quiz", "bfs-unit4-notes": "Unit IV &mdash; Key Notes", "bfs-unit4-case-study": "Case Study — Applying Unit IV", "bfs-unit5": "Unit V — Insurance and Financial Services", "bfs-unit5-topic1": "Insurance: Basic Concepts and Contract Principles", "bfs-unit5-topic2": "IRDA and India's Insurance Sector", "bfs-unit5-topic3": "Types of Insurance Products", "bfs-unit5-topic4": "Bill Discounting and Factoring", "bfs-unit5-topic5": "Merchant Banking", "bfs-unit5-topic6": "Role of SEBI", "bfs-unit5-assignments": "Unit V — Assignments", "bfs-unit5-quiz": "Unit V — Quiz", "bfs-unit5-notes": "Unit V &mdash; Key Notes", "bfs-unit5-case-study": "Case Study — Applying Unit V", "payroll": "Payroll Management", "payroll-unit1": "Unit I &mdash; Introduction to Payroll Management", "payroll-unit1-topic1": "Meaning, Definition and Payroll Terminology", "payroll-unit1-topic2": "Stages of the Payroll Process", "payroll-unit1-topic3": "Skills Required for Payroll Management", "payroll-unit1-topic4": "Excel-Based Payroll Management", "payroll-unit1-topic5": "Payroll Outsourcing", "payroll-unit1-topic6": "Employee Forms, Employee Information and Time/Attendance Sheets", "payroll-unit1-assignments": "Unit I &mdash; Assignments", "payroll-unit1-quiz": "Unit I &mdash; Quiz", "payroll-unit1-notes": "Unit I &mdash; Key Notes", "payroll-unit1-case-study": "Case Study &mdash; Applying Unit I", "payroll-unit2": "Unit II &mdash; Laws and Practices", "payroll-unit2-topic1": "Employment Laws Governing Payroll", "payroll-unit2-topic2": "Payroll Tax Regulations", "payroll-unit2-topic3": "The Payment of Wages Act and Payment of Bonus Act", "payroll-unit2-topic4": "The Payment of Gratuity Act and Employee Rights", "payroll-unit2-topic5": "Regulatory Compliance Framework", "payroll-unit2-topic6": "The Payroll Cycle in Practice", "payroll-unit2-assignments": "Unit II &mdash; Assignments", "payroll-unit2-quiz": "Unit II &mdash; Quiz", "payroll-unit2-notes": "Unit II &mdash; Key Notes", "payroll-unit2-case-study": "Case Study &mdash; Applying Unit II", "payroll-unit3": "Unit III &mdash; Basic Payroll Process", "payroll-unit3-topic1": "Calculating Gross Pay", "payroll-unit3-topic2": "Key Principles of Payments and Deductions", "payroll-unit3-topic3": "Payroll Accounting and Journal Entries", "payroll-unit3-topic4": "Account Reconciliation in Payroll", "payroll-unit3-topic5": "Salary Break-up and Cost to Company (CTC) Structuring", "payroll-unit3-topic6": "Methods of Paying Employees", "payroll-unit3-assignments": "Unit III &mdash; Assignments", "payroll-unit3-quiz": "Unit III &mdash; Quiz", "payroll-unit3-notes": "Unit III &mdash; Key Notes", "payroll-unit3-case-study": "Case Study &mdash; Applying Unit III", "payroll-unit4": "Unit IV &mdash; Payroll Software", "payroll-unit4-topic1": "Overview of Payroll Software", "payroll-unit4-topic2": "Selecting and Implementing Payroll Software", "payroll-unit4-topic3": "Software Training and Change Management", "payroll-unit4-topic4": "Payroll Reports", "payroll-unit4-topic5": "Compliance Issues in Payroll Software", "payroll-unit4-topic6": "Data Security and Integration in Payroll Systems", "payroll-unit4-assignments": "Unit IV &mdash; Assignments", "payroll-unit4-quiz": "Unit IV &mdash; Quiz", "payroll-unit4-notes": "Unit IV &mdash; Key Notes", "payroll-unit4-case-study": "Case Study &mdash; Applying Unit IV", "payroll-unit5": "Unit V &mdash; Advanced Payroll", "payroll-unit5-topic1": "International Payroll", "payroll-unit5-topic2": "Payroll for Contractors and Gig Workers", "payroll-unit5-topic3": "Real-Life Payroll Scenarios", "payroll-unit5-topic4": "Payroll Report Writing", "payroll-unit5-topic5": "MIS Reports in Excel", "payroll-unit5-topic6": "Emerging Trends in Payroll Management", "payroll-unit5-assignments": "Unit V &mdash; Assignments", "payroll-unit5-quiz": "Unit V &mdash; Quiz", "payroll-unit5-notes": "Unit V &mdash; Key Notes", "payroll-unit5-case-study": "Case Study &mdash; Course Capstone"};
+  var SUBJ_NAME = {"sm": "Strategic Management", "bfs": "Banking & Financial Services", "payroll": "Payroll"};
+  var PKEY = 'mba-progress', LKEY = 'mba-last';
+
+  function load() { try { return JSON.parse(localStorage.getItem(PKEY) || '{}'); } catch (e) { return {}; } }
+  function save(o) { try { localStorage.setItem(PKEY, JSON.stringify(o)); } catch (e) {} }
+  function isTopic(s) { return /^(sm|bfs|payroll)-unit[1-5]-topic\d+$/.test(s); }
+  function isNotes(s) { return /^(sm|bfs|payroll)-unit[1-5]-notes$/.test(s); }
+  function subjectOf(s) { var m = /^(sm|bfs|payroll)/.exec(s || ''); return m ? m[1] : null; }
+  function unitOf(s) { var m = /^((sm|bfs|payroll)-unit[1-5])/.exec(s || ''); return m ? m[1] : null; }
+
+  window.__nbPN = { prev: null, next: null };
+
+  function refresh() {
+    var slug = (location.hash || '#home').slice(1) || 'home';
+    if (isTopic(slug) || isNotes(slug)) { var p = load(); if (!p[slug]) { p[slug] = Date.now(); save(p); } }
+    if (slug !== 'home' && slug !== 'all-notes') { try { localStorage.setItem(LKEY, slug); } catch (e) {} }
+    buildPN(slug);
+    paintSidebar(slug);
+    if (slug === 'home') homeCard();
+    if (slug === 'all-notes') hubProg();
+  }
+
+  function buildPN(slug) {
+    var subj = subjectOf(slug);
+    var seq = subj ? SUBJ_SEQ[subj] : null;
+    var pageEl = document.getElementById('page-' + slug);
+    if (!pageEl) return;
+    var bar = pageEl.querySelector('.nb-pn');
+    var i = seq ? seq.indexOf(slug) : -1;
+    if (i < 0) { if (bar) bar.parentNode.removeChild(bar); window.__nbPN = { prev: null, next: null }; return; }
+    var prev = i > 0 ? seq[i - 1] : subj;
+    var next = i < seq.length - 1 ? seq[i + 1] : null;
+    window.__nbPN = { prev: prev, next: next };
+    var pl = (prev === subj) ? ('\u2039 ' + SUBJ_NAME[subj] + ' overview') : ('\u2039 ' + (TITLES[prev] || 'Previous'));
+    var html = '<a class="pn-prev" href="#' + prev + '">' + pl + '</a>' +
+      (next ? '<a class="pn-next" href="#' + next + '">' + (TITLES[next] || 'Next') + ' \u203a</a>' : '<span></span>');
+    if (!bar) {
+      bar = document.createElement('nav');
+      bar.className = 'nb-pn';
+      var h1 = pageEl.querySelector('h1');
+      if (h1) h1.insertAdjacentElement('afterend', bar);
+      else { var mn = pageEl.querySelector('main') || pageEl; mn.insertBefore(bar, mn.firstChild); }
+    }
+    bar.innerHTML = html;
+  }
+
+  function paintSidebar(slug) {
+    var pageEl = document.getElementById('page-' + slug);
+    if (!pageEl) return;
+    var sb = pageEl.querySelector('.sidebar');
+    if (!sb) return;
+    var oldp = sb.querySelector('.nb-progress'); if (oldp) oldp.parentNode.removeChild(oldp);
+    var uk = unitOf(slug);
+    var p = load();
+    var links = sb.querySelectorAll('ol a[href]');
+    for (var k = 0; k < links.length; k++) {
+      var hf = links[k].getAttribute('href') || '';
+      var s = hf.charAt(0) === '#' ? hf.slice(1) : '';
+      if (links[k].parentNode) links[k].parentNode.classList.toggle('read', !!(s && p[s]));
+    }
+    if (!uk) return;
+    var topics = (UNIT_SEQ[uk] || []).filter(isTopic);
+    if (!topics.length) return;
+    var done = 0;
+    for (var t = 0; t < topics.length; t++) if (p[topics[t]]) done++;
+    var h3 = sb.querySelector('h3');
+    if (!h3) return;
+    var d = document.createElement('div');
+    d.className = 'nb-progress';
+    d.innerHTML = '<span>' + done + ' / ' + topics.length + ' topics read</span><i style="--p:' +
+      Math.round(done / topics.length * 100) + '%"></i>';
+    h3.insertAdjacentElement('afterend', d);
+  }
+
+  function homeCard() {
+    var host = document.querySelector('#page-home .layout') || document.getElementById('page-home');
+    if (!host) return;
+    var ex = document.getElementById('nb-resume'); if (ex) ex.parentNode.removeChild(ex);
+    var last = null; try { last = localStorage.getItem(LKEY); } catch (e) {}
+    if (!last || !document.getElementById('page-' + last)) return;
+    var d = document.createElement('div');
+    d.className = 'callout'; d.id = 'nb-resume';
+    d.innerHTML = '<h4>Continue</h4><p><a href="#' + last + '"><b>\u2192 ' + (TITLES[last] || last) +
+      '</b></a> \u2014 pick up where you left off.</p>';
+    var h1 = host.querySelector('h1');
+    if (h1) h1.insertAdjacentElement('afterend', d); else host.insertBefore(d, host.firstChild);
+  }
+
+  function hubProg() {
+    var spans = document.querySelectorAll('#page-all-notes .nb-hub-prog');
+    var p = load();
+    for (var i = 0; i < spans.length; i++) {
+      var c = spans[i].getAttribute('data-course');
+      var all = (SUBJ_SEQ[c] || []).filter(isTopic);
+      var done = 0;
+      for (var j = 0; j < all.length; j++) if (p[all[j]]) done++;
+      spans[i].textContent = all.length ? (done + ' / ' + all.length + ' topics read') : '';
+    }
+  }
+
+  window.addEventListener('hashchange', refresh);
+  window.addEventListener('DOMContentLoaded', function () {
+    refresh();
+    var rb = document.getElementById('nb-prog-reset');
+    if (rb) rb.addEventListener('click', function () {
+      try { localStorage.removeItem(PKEY); localStorage.removeItem(LKEY); } catch (e) {}
+      refresh();
+    });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    var tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    var s = document.getElementById('nb-search');
+    if (s && s.classList.contains('open')) return;
+    var pm = document.getElementById('nb-print-menu');
+    if (pm && pm.classList.contains('open')) return;
+    var pn = window.__nbPN || {};
+    if (e.key === 'ArrowLeft' && pn.prev) { e.preventDefault(); location.hash = '#' + pn.prev; }
+    if (e.key === 'ArrowRight' && pn.next) { e.preventDefault(); location.hash = '#' + pn.next; }
+  });
 })();
 </script>
 
