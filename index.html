@@ -458,15 +458,18 @@ footer.site-footer {
 #notebook-home-btn:hover { opacity: 1; text-decoration: none; }
 
 
-/* ---- search ---- */
-#nb-search-btn {
-  position: fixed; bottom: 3.6rem; right: 1.1rem; z-index: 999;
+/* ---- floating pills (search / print / print-unit; home btn is styled separately) ---- */
+#nb-search-btn, #nb-print-btn, #nb-printunit-btn {
+  position: fixed; right: 1.1rem; z-index: 999;
   background: #211f2e; color: #fff; border: 0; cursor: pointer;
-  font: bold 0.82rem/1 Arial, sans-serif;
-  padding: 0.6rem 1rem; border-radius: 999px;
+  font: bold 0.78rem/1 Arial, sans-serif;
+  padding: 0.52rem 0.9rem; border-radius: 999px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25); opacity: 0.9;
 }
-#nb-search-btn:hover { opacity: 1; }
+#nb-search-btn:hover, #nb-print-btn:hover, #nb-printunit-btn:hover { opacity: 1; }
+#nb-search-btn   { bottom: 3.3rem; }
+#nb-print-btn    { bottom: 5.5rem; }
+#nb-printunit-btn{ bottom: 7.7rem; display: none; }
 #nb-search { position: fixed; inset: 0; z-index: 1000; display: none; background: rgba(0,0,0,0.45); padding: 8vh 1rem 1rem; }
 #nb-search.open { display: block; }
 #nb-search .box {
@@ -499,8 +502,9 @@ footer.site-footer {
 
 /* ---- print ---- */
 @media print {
-  #nb-search-btn, #nb-search, #notebook-home-btn, .theme-picker,
-  .sidebar, .page-nav, .back-link { display: none !important; }
+  #nb-search-btn, #nb-print-btn, #nb-printunit-btn, #nb-search, #notebook-home-btn,
+  .theme-picker, .sidebar, .page-nav, .back-link { display: none !important; }
+  .page[data-print-break] { break-before: page; }
   html, body, .page { background: #fff !important; color: #000 !important; }
   .page { display: block !important; box-shadow: none !important; min-height: 0 !important; }
   .layout { display: block !important; max-width: none !important; padding: 0 !important; }
@@ -23497,24 +23501,39 @@ footer.site-footer {
 
 <a id="notebook-home-btn" href="#home">⌂ Notebook Home</a>
 <button id="nb-search-btn" type="button" aria-label="Search the notebook">⌕ Search</button>
+<button id="nb-print-btn" type="button" aria-label="Print this page">⎙ Print</button>
+<button id="nb-printunit-btn" type="button" aria-label="Print the whole unit"></button>
 <div id="nb-search" role="dialog" aria-label="Search"><div class="box"><input type="search" id="nb-search-input" autocomplete="off" spellcheck="false" placeholder="Search topics, units, notes…  (press / )"><ul id="nb-search-results"></ul></div></div>
 
 
 <script>
 (function () {
+  var ROMAN = { '1': 'I', '2': 'II', '3': 'III', '4': 'IV', '5': 'V' };
   function showPage(slug) {
     var pages = document.querySelectorAll('.page');
-    for (var i = 0; i < pages.length; i++) { pages[i].style.display = 'none'; }
+    for (var i = 0; i < pages.length; i++) { pages[i].style.display = 'none'; pages[i].removeAttribute('data-print-break'); }
     var target = document.getElementById('page-' + slug) || document.getElementById('page-home');
     target.style.display = 'block';
     window.scrollTo(0, 0);
-    var btn = document.getElementById('notebook-home-btn');
-    if (btn) { btn.style.display = (target.id === 'page-home') ? 'none' : 'inline-block'; }
+    var isHome = (target.id === 'page-home');
+    var hb = document.getElementById('notebook-home-btn');
+    if (hb) hb.style.display = isHome ? 'none' : 'inline-block';
+    var pb = document.getElementById('nb-print-btn');
+    if (pb) pb.style.display = isHome ? 'none' : 'inline-block';
+    var pu = document.getElementById('nb-printunit-btn');
+    if (pu) {
+      var m = /^(sm|bfs|payroll)-unit([1-5])(?:$|-)/.exec(target.id.replace('page-', ''));
+      if (m) {
+        pu.style.display = 'inline-block';
+        pu.textContent = '\u2399 Print Unit ' + ROMAN[m[2]];
+        pu.setAttribute('data-unit', m[1] + '-unit' + m[2]);
+      } else {
+        pu.style.display = 'none';
+      }
+    }
   }
-  function routeFromHash() {
-    var slug = (location.hash || '#home').slice(1);
-    showPage(slug);
-  }
+  function routeFromHash() { showPage((location.hash || '#home').slice(1)); }
+  window.__nbRoute = routeFromHash;
   window.addEventListener('hashchange', routeFromHash);
   window.addEventListener('DOMContentLoaded', routeFromHash);
 })();
@@ -23567,6 +23586,45 @@ footer.site-footer {
     else if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, cur.length - 1); paint(); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); paint(); }
     else if (e.key === 'Enter') { e.preventDefault(); go(sel); }
+  });
+})();
+</script>
+
+
+
+<script>
+(function () {
+  var UNITS = {"sm-unit1": ["sm-unit1-topic1", "sm-unit1-topic2", "sm-unit1-topic3", "sm-unit1-topic4", "sm-unit1-topic5", "sm-unit1-topic6", "sm-unit1-notes"], "sm-unit2": ["sm-unit2-topic1", "sm-unit2-topic2", "sm-unit2-topic3", "sm-unit2-topic4", "sm-unit2-topic5", "sm-unit2-topic6", "sm-unit2-notes"], "sm-unit3": ["sm-unit3-topic1", "sm-unit3-topic2", "sm-unit3-topic3", "sm-unit3-topic4", "sm-unit3-topic5", "sm-unit3-topic6", "sm-unit3-topic7", "sm-unit3-notes"], "sm-unit4": ["sm-unit4-topic1", "sm-unit4-topic2", "sm-unit4-topic3", "sm-unit4-topic4", "sm-unit4-topic5", "sm-unit4-topic6", "sm-unit4-topic7", "sm-unit4-notes"], "sm-unit5": ["sm-unit5-topic1", "sm-unit5-topic2", "sm-unit5-topic3", "sm-unit5-topic4", "sm-unit5-topic5", "sm-unit5-topic6", "sm-unit5-notes"], "bfs-unit1": ["bfs-unit1-topic1", "bfs-unit1-topic2", "bfs-unit1-topic3", "bfs-unit1-topic4", "bfs-unit1-topic5", "bfs-unit1-topic6", "bfs-unit1-notes"], "bfs-unit2": ["bfs-unit2-topic1", "bfs-unit2-topic2", "bfs-unit2-topic3", "bfs-unit2-topic4", "bfs-unit2-topic5", "bfs-unit2-topic6", "bfs-unit2-topic7", "bfs-unit2-topic8", "bfs-unit2-notes"], "bfs-unit3": ["bfs-unit3-topic1", "bfs-unit3-topic2", "bfs-unit3-topic3", "bfs-unit3-topic4", "bfs-unit3-topic5", "bfs-unit3-topic6", "bfs-unit3-notes"], "bfs-unit4": ["bfs-unit4-topic1", "bfs-unit4-topic2", "bfs-unit4-topic3", "bfs-unit4-topic4", "bfs-unit4-topic5", "bfs-unit4-topic6", "bfs-unit4-notes"], "bfs-unit5": ["bfs-unit5-topic1", "bfs-unit5-topic2", "bfs-unit5-topic3", "bfs-unit5-topic4", "bfs-unit5-topic5", "bfs-unit5-topic6", "bfs-unit5-notes"], "payroll-unit1": ["payroll-unit1-topic1", "payroll-unit1-topic2", "payroll-unit1-topic3", "payroll-unit1-topic4", "payroll-unit1-topic5", "payroll-unit1-topic6", "payroll-unit1-notes"], "payroll-unit2": ["payroll-unit2-topic1", "payroll-unit2-topic2", "payroll-unit2-topic3", "payroll-unit2-topic4", "payroll-unit2-topic5", "payroll-unit2-topic6", "payroll-unit2-notes"], "payroll-unit3": ["payroll-unit3-topic1", "payroll-unit3-topic2", "payroll-unit3-topic3", "payroll-unit3-topic4", "payroll-unit3-topic5", "payroll-unit3-topic6", "payroll-unit3-notes"], "payroll-unit4": ["payroll-unit4-topic1", "payroll-unit4-topic2", "payroll-unit4-topic3", "payroll-unit4-topic4", "payroll-unit4-topic5", "payroll-unit4-topic6", "payroll-unit4-notes"], "payroll-unit5": ["payroll-unit5-topic1", "payroll-unit5-topic2", "payroll-unit5-topic3", "payroll-unit5-topic4", "payroll-unit5-topic5", "payroll-unit5-topic6", "payroll-unit5-notes"]};
+  var pr = document.getElementById('nb-print-btn');
+  var pu = document.getElementById('nb-printunit-btn');
+  if (pr) pr.addEventListener('click', function () { window.print(); });
+
+  var restoreHash = null;
+  function restore() {
+    if (restoreHash === null) return;
+    var h = restoreHash; restoreHash = null;
+    var ps = document.querySelectorAll('.page');
+    for (var i = 0; i < ps.length; i++) { ps[i].style.display = 'none'; ps[i].removeAttribute('data-print-break'); }
+    if (window.__nbRoute) window.__nbRoute();
+  }
+  window.addEventListener('afterprint', function () { setTimeout(restore, 40); });
+
+  if (pu) pu.addEventListener('click', function () {
+    var slugs = UNITS[pu.getAttribute('data-unit') || ''];
+    if (!slugs || !slugs.length) { window.print(); return; }
+    restoreHash = (location.hash || '#home').slice(1);
+    var ps = document.querySelectorAll('.page');
+    for (var i = 0; i < ps.length; i++) { ps[i].style.display = 'none'; ps[i].removeAttribute('data-print-break'); }
+    var shown = 0;
+    for (var j = 0; j < slugs.length; j++) {
+      var el = document.getElementById('page-' + slugs[j]);
+      if (!el) continue;
+      el.style.display = 'block';
+      if (shown > 0) el.setAttribute('data-print-break', '1');
+      shown++;
+    }
+    window.scrollTo(0, 0);
+    setTimeout(function () { window.print(); setTimeout(restore, 400); }, 60);
   });
 })();
 </script>
