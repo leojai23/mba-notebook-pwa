@@ -506,7 +506,10 @@ footer.site-footer {
   .theme-picker, .sidebar, .page-nav, .back-link { display: none !important; }
   .page[data-print-break] { break-before: page; }
   html, body, .page { background: #fff !important; color: #000 !important; }
-  .page { display: block !important; box-shadow: none !important; min-height: 0 !important; }
+  /* NB: do NOT force .page display here - the hash router / print-unit JS
+     control which pages are visible via inline styles; overriding it would
+     print the entire notebook. */
+  .page { box-shadow: none !important; min-height: 0 !important; }
   .layout { display: block !important; max-width: none !important; padding: 0 !important; }
   .site-header { background: #fff !important; color: #000 !important; padding: 0 0 0.5rem !important; border-bottom: 1px solid #000; }
   .site-header .brand, .site-header .faculty, .site-header .crumbs, .site-header a { color: #000 !important; }
