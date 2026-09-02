@@ -457,6 +457,62 @@ footer.site-footer {
 }
 #notebook-home-btn:hover { opacity: 1; text-decoration: none; }
 
+
+/* ---- search ---- */
+#nb-search-btn {
+  position: fixed; bottom: 3.6rem; right: 1.1rem; z-index: 999;
+  background: #211f2e; color: #fff; border: 0; cursor: pointer;
+  font: bold 0.82rem/1 Arial, sans-serif;
+  padding: 0.6rem 1rem; border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25); opacity: 0.9;
+}
+#nb-search-btn:hover { opacity: 1; }
+#nb-search { position: fixed; inset: 0; z-index: 1000; display: none; background: rgba(0,0,0,0.45); padding: 8vh 1rem 1rem; }
+#nb-search.open { display: block; }
+#nb-search .box {
+  max-width: 560px; margin: 0 auto; background: #fff; color: #222;
+  border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  overflow: hidden; font-family: Arial, sans-serif;
+}
+#nb-search input {
+  width: 100%; border: 0; padding: 1rem 1.1rem; font-size: 1.05rem;
+  background: #fff; color: #222; border-bottom: 1px solid #ddd; outline: none;
+}
+#nb-search ul { list-style: none; margin: 0; padding: 0; max-height: 62vh; overflow-y: auto; }
+#nb-search li a { display: block; padding: 0.65rem 1.1rem; text-decoration: none; color: #222; border-bottom: 1px solid #eee; }
+#nb-search li a:hover, #nb-search li a.sel { background: #eef; }
+#nb-search li .t { font-weight: bold; }
+#nb-search li .m { font-size: 0.78rem; color: #777; }
+#nb-search .empty { padding: 1rem 1.1rem; color: #777; font-size: 0.9rem; }
+:root[data-theme="dark"] #nb-search .box, :root[data-theme="night"] #nb-search .box,
+:root[data-theme="dark"] #nb-search input, :root[data-theme="night"] #nb-search input { background: #1e2128; color: #e2e6ef; }
+:root[data-theme="dark"] #nb-search input, :root[data-theme="night"] #nb-search input { border-bottom-color: #31353f; }
+:root[data-theme="dark"] #nb-search li a, :root[data-theme="night"] #nb-search li a { color: #e2e6ef; border-bottom-color: #2b303a; }
+:root[data-theme="dark"] #nb-search li a:hover, :root[data-theme="dark"] #nb-search li a.sel,
+:root[data-theme="night"] #nb-search li a:hover, :root[data-theme="night"] #nb-search li a.sel { background: #2a2f3a; }
+
+/* ---- All Unit Notes hub ---- */
+.hub-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.hub-list li { border: 1px solid var(--border); background: var(--bg-panel); border-radius: 8px; margin-bottom: 0.55rem; padding: 0.8rem 1.1rem; box-shadow: var(--shadow); }
+.hub-list li a { font-size: 1rem; font-family: Arial, sans-serif; }
+.hub-list b { color: var(--accent); }
+
+/* ---- print ---- */
+@media print {
+  #nb-search-btn, #nb-search, #notebook-home-btn, .theme-picker,
+  .sidebar, .page-nav, .back-link { display: none !important; }
+  html, body, .page { background: #fff !important; color: #000 !important; }
+  .page { display: block !important; box-shadow: none !important; min-height: 0 !important; }
+  .layout { display: block !important; max-width: none !important; padding: 0 !important; }
+  .site-header { background: #fff !important; color: #000 !important; padding: 0 0 0.5rem !important; border-bottom: 1px solid #000; }
+  .site-header .brand, .site-header .faculty, .site-header .crumbs, .site-header a { color: #000 !important; }
+  a { color: #000 !important; text-decoration: none !important; }
+  h2 { border-color: #999 !important; color: #000 !important; }
+  .card, .exam-box, .callout, table, .diagram, .quiz-question, .hub-list li { break-inside: avoid; }
+  details.answer-reveal > summary { display: none !important; }
+  details.answer-reveal > .answer-box { display: block !important; margin-top: 0.4rem; }
+}
+
 </style>
 
 <meta charset="utf-8">
@@ -497,6 +553,8 @@ footer.site-footer {
       <li>Every subject also has a single-file edition (linked from its home page) for offline reading or easy sharing — one file, no internet needed.</li>
     </ul>
   </div>
+
+  <div class="callout" style="margin-top:1.4rem"><h4>Quick revision</h4><p><a href="#all-notes"><b>&rarr; All Unit Notes</b></a> &mdash; every unit’s simplified key points on one page each, across all three subjects.</p></div>
 
   <h2>Subjects</h2>
   <ol class="subject-list">
@@ -23393,7 +23451,53 @@ footer.site-footer {
 <footer class="site-footer">Unit V — Advanced Payroll</footer>
 </div>
 
+<div class="page theme-home" id="page-all-notes">
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">MBA Study Notebook</div>
+    <div class="tagline">All unit key-notes in one place</div>
+    <div class="theme-picker" role="group" aria-label="Reading theme">
+      <button type="button" data-set-theme="day">Day</button>
+      <button type="button" data-set-theme="sepia">Sepia</button>
+      <button type="button" data-set-theme="dark">Dark</button>
+      <button type="button" data-set-theme="night">Night</button>
+    </div>
+  </div>
+</header>
+<div class="layout" style="grid-template-columns:1fr;">
+<h1>All Unit Notes</h1>
+<p class="subtitle">Every unit’s simplified key points, one link each &mdash; the fastest revision path across all three subjects.</p>
+<h2>Strategic Management</h2>
+<ul class="hub-list">
+<li><a href="#sm-unit1-notes"><b>Unit I</b> &mdash; Strategy and Process</a></li>
+<li><a href="#sm-unit2-notes"><b>Unit II</b> &mdash; Competitive Advantage</a></li>
+<li><a href="#sm-unit3-notes"><b>Unit III</b> &mdash; Strategies</a></li>
+<li><a href="#sm-unit4-notes"><b>Unit IV</b> &mdash; Strategy Implementation &amp; Evaluation</a></li>
+<li><a href="#sm-unit5-notes"><b>Unit V</b> &mdash; Other Strategic Issues</a></li>
+</ul>
+<h2>Banking and Financial Services</h2>
+<ul class="hub-list">
+<li><a href="#bfs-unit1-notes"><b>Unit I</b> &mdash; Introduction to Indian Banking System</a></li>
+<li><a href="#bfs-unit2-notes"><b>Unit II</b> &mdash; Products &amp; Risk Management</a></li>
+<li><a href="#bfs-unit3-notes"><b>Unit III</b> &mdash; Developments in Banking Technology</a></li>
+<li><a href="#bfs-unit4-notes"><b>Unit IV</b> &mdash; Asset-Based Financial Services</a></li>
+<li><a href="#bfs-unit5-notes"><b>Unit V</b> &mdash; Insurance and Financial Services</a></li>
+</ul>
+<h2>Payroll</h2>
+<ul class="hub-list">
+<li><a href="#payroll-unit1-notes"><b>Unit I</b> &mdash; Introduction to Payroll Management</a></li>
+<li><a href="#payroll-unit2-notes"><b>Unit II</b> &mdash; Laws and Practices</a></li>
+<li><a href="#payroll-unit3-notes"><b>Unit III</b> &mdash; Basic Payroll Process</a></li>
+<li><a href="#payroll-unit4-notes"><b>Unit IV</b> &mdash; Payroll Software</a></li>
+<li><a href="#payroll-unit5-notes"><b>Unit V</b> &mdash; Advanced Payroll</a></li>
+</ul>
+</div>
+<footer class="site-footer">MBA Study Notebook &middot; revision hub</footer>
+</div>
+
 <a id="notebook-home-btn" href="#home">⌂ Notebook Home</a>
+<button id="nb-search-btn" type="button" aria-label="Search the notebook">⌕ Search</button>
+<div id="nb-search" role="dialog" aria-label="Search"><div class="box"><input type="search" id="nb-search-input" autocomplete="off" spellcheck="false" placeholder="Search topics, units, notes…  (press / )"><ul id="nb-search-results"></ul></div></div>
 
 
 <script>
@@ -23413,6 +23517,57 @@ footer.site-footer {
   }
   window.addEventListener('hashchange', routeFromHash);
   window.addEventListener('DOMContentLoaded', routeFromHash);
+})();
+</script>
+
+
+
+<script>
+(function () {
+  var IDX = [{"s": "all-notes", "t": "All Unit Notes", "c": "Notebook", "k": "hub"}, {"s": "sm", "t": "Strategic Management", "c": "Strategic Management", "k": "overview", "x": ""}, {"s": "sm-unit1", "t": "Unit I — Strategy and Process", "c": "Strategic Management", "k": "overview", "x": "unit 1 unit I"}, {"s": "sm-unit1-topic1", "t": "Conceptual Framework for Strategic Management", "c": "Strategic Management", "k": "topic", "x": "unit 1 unit I"}, {"s": "sm-unit1-topic2", "t": "The Concept of Strategy and the Strategy Formation Process", "c": "Strategic Management", "k": "topic", "x": "unit 1 unit I"}, {"s": "sm-unit1-topic3", "t": "Stakeholders in Business", "c": "Strategic Management", "k": "topic", "x": "unit 1 unit I"}, {"s": "sm-unit1-topic4", "t": "Vision, Mission and Purpose", "c": "Strategic Management", "k": "topic", "x": "unit 1 unit I"}, {"s": "sm-unit1-topic5", "t": "Business Objectives and Goals", "c": "Strategic Management", "k": "topic", "x": "unit 1 unit I"}, {"s": "sm-unit1-topic6", "t": "Corporate Governance and Social Responsibility", "c": "Strategic Management", "k": "topic", "x": "unit 1 unit I"}, {"s": "sm-unit1-assignments", "t": "Unit I — Assignments", "c": "Strategic Management", "k": "assignments", "x": "unit 1 unit I"}, {"s": "sm-unit1-quiz", "t": "Unit I — Quiz", "c": "Strategic Management", "k": "quiz", "x": "unit 1 unit I"}, {"s": "sm-unit1-notes", "t": "Unit I &mdash; Key Notes", "c": "Strategic Management", "k": "notes", "x": "unit 1 unit I"}, {"s": "sm-unit1-case-study", "t": "Case Study — Applying Unit I", "c": "Strategic Management", "k": "case-study", "x": "unit 1 unit I"}, {"s": "sm-unit2", "t": "Unit II — Competitive Advantage", "c": "Strategic Management", "k": "overview", "x": "unit 2 unit II"}, {"s": "sm-unit2-topic1", "t": "External Environment and Porter's Five Forces Model", "c": "Strategic Management", "k": "topic", "x": "unit 2 unit II"}, {"s": "sm-unit2-topic2", "t": "Competitive Changes during Industry Evolution", "c": "Strategic Management", "k": "topic", "x": "unit 2 unit II"}, {"s": "sm-unit2-topic3", "t": "Globalisation, Industry Structure and National Context", "c": "Strategic Management", "k": "topic", "x": "unit 2 unit II"}, {"s": "sm-unit2-topic4", "t": "Core Competencies and the Building Blocks of Competitive Advantage", "c": "Strategic Management", "k": "topic", "x": "unit 2 unit II"}, {"s": "sm-unit2-topic5", "t": "Low Cost and Differentiation", "c": "Strategic Management", "k": "topic", "x": "unit 2 unit II"}, {"s": "sm-unit2-topic6", "t": "Distinctive Competencies: Avoiding Failure and Sustaining Competitive Advantage", "c": "Strategic Management", "k": "topic", "x": "unit 2 unit II"}, {"s": "sm-unit2-assignments", "t": "Unit II — Assignments", "c": "Strategic Management", "k": "assignments", "x": "unit 2 unit II"}, {"s": "sm-unit2-quiz", "t": "Unit II — Quiz", "c": "Strategic Management", "k": "quiz", "x": "unit 2 unit II"}, {"s": "sm-unit2-notes", "t": "Unit II &mdash; Key Notes", "c": "Strategic Management", "k": "notes", "x": "unit 2 unit II"}, {"s": "sm-unit2-case-study", "t": "Case Study — Applying Unit II", "c": "Strategic Management", "k": "case-study", "x": "unit 2 unit II"}, {"s": "sm-unit3", "t": "Unit III — Strategies", "c": "Strategic Management", "k": "overview", "x": "unit 3 unit III"}, {"s": "sm-unit3-topic1", "t": "Grand Strategies: Stability, Expansion, Retrenchment and Combination", "c": "Strategic Management", "k": "topic", "x": "unit 3 unit III"}, {"s": "sm-unit3-topic2", "t": "Business-Level Strategy and Strategy in the Global Environment", "c": "Strategic Management", "k": "topic", "x": "unit 3 unit III"}, {"s": "sm-unit3-topic3", "t": "Corporate Strategy: Vertical Integration and Diversification", "c": "Strategic Management", "k": "topic", "x": "unit 3 unit III"}, {"s": "sm-unit3-topic4", "t": "Strategic Alliances and Strategic Analysis &amp; Choice", "c": "Strategic Management", "k": "topic", "x": "unit 3 unit III"}, {"s": "sm-unit3-topic5", "t": "Managing Growth and ETOP", "c": "Strategic Management", "k": "topic", "x": "unit 3 unit III"}, {"s": "sm-unit3-topic6", "t": "Corporate Portfolio Analysis I: SWOT, GAP Analysis and the BCG Matrix", "c": "Strategic Management", "k": "topic", "x": "unit 3 unit III"}, {"s": "sm-unit3-topic7", "t": "Corporate Portfolio Analysis II: McKinsey's 7S, GE 9-Cell, Selection of Matrix and Balanced Scorecard", "c": "Strategic Management", "k": "topic", "x": "unit 3 unit III"}, {"s": "sm-unit3-assignments", "t": "Unit III — Assignments", "c": "Strategic Management", "k": "assignments", "x": "unit 3 unit III"}, {"s": "sm-unit3-quiz", "t": "Unit III — Quiz", "c": "Strategic Management", "k": "quiz", "x": "unit 3 unit III"}, {"s": "sm-unit3-notes", "t": "Unit III &mdash; Key Notes", "c": "Strategic Management", "k": "notes", "x": "unit 3 unit III"}, {"s": "sm-unit3-case-study", "t": "Case Study — Applying Unit III", "c": "Strategic Management", "k": "case-study", "x": "unit 3 unit III"}, {"s": "sm-unit4", "t": "Unit IV — Strategy Implementation &amp; Evaluation", "c": "Strategic Management", "k": "overview", "x": "unit 4 unit IV"}, {"s": "sm-unit4-topic1", "t": "The Implementation Process and Resource Allocation", "c": "Strategic Management", "k": "topic", "x": "unit 4 unit IV"}, {"s": "sm-unit4-topic2", "t": "Designing Organisational Structure", "c": "Strategic Management", "k": "topic", "x": "unit 4 unit IV"}, {"s": "sm-unit4-topic3", "t": "Designing Strategic Control Systems", "c": "Strategic Management", "k": "topic", "x": "unit 4 unit IV"}, {"s": "sm-unit4-topic4", "t": "Matching Structure and Control to Strategy", "c": "Strategic Management", "k": "topic", "x": "unit 4 unit IV"}, {"s": "sm-unit4-topic5", "t": "Implementing Strategic Change", "c": "Strategic Management", "k": "topic", "x": "unit 4 unit IV"}, {"s": "sm-unit4-topic6", "t": "Politics, Power and Conflict", "c": "Strategic Management", "k": "topic", "x": "unit 4 unit IV"}, {"s": "sm-unit4-topic7", "t": "Techniques of Strategic Evaluation and Control", "c": "Strategic Management", "k": "topic", "x": "unit 4 unit IV"}, {"s": "sm-unit4-assignments", "t": "Unit IV — Assignments", "c": "Strategic Management", "k": "assignments", "x": "unit 4 unit IV"}, {"s": "sm-unit4-quiz", "t": "Unit IV — Quiz", "c": "Strategic Management", "k": "quiz", "x": "unit 4 unit IV"}, {"s": "sm-unit4-notes", "t": "Unit IV &mdash; Key Notes", "c": "Strategic Management", "k": "notes", "x": "unit 4 unit IV"}, {"s": "sm-unit4-case-study", "t": "Case Study — Applying Unit IV", "c": "Strategic Management", "k": "case-study", "x": "unit 4 unit IV"}, {"s": "sm-unit5", "t": "Unit V — Other Strategic Issues", "c": "Strategic Management", "k": "overview", "x": "unit 5 unit V"}, {"s": "sm-unit5-topic1", "t": "Managing Technology and Innovation", "c": "Strategic Management", "k": "topic", "x": "unit 5 unit V"}, {"s": "sm-unit5-topic2", "t": "Strategic Issues for Non-Profit Organisations", "c": "Strategic Management", "k": "topic", "x": "unit 5 unit V"}, {"s": "sm-unit5-topic3", "t": "New Business Models and Strategies for the Internet Economy", "c": "Strategic Management", "k": "topic", "x": "unit 5 unit V"}, {"s": "sm-unit5-topic4", "t": "Recent Trends I: Strategic Thinking and Organisational Culture", "c": "Strategic Management", "k": "topic", "x": "unit 5 unit V"}, {"s": "sm-unit5-topic5", "t": "Recent Trends II: Change Management and Strategic Management in a Globalised Economy", "c": "Strategic Management", "k": "topic", "x": "unit 5 unit V"}, {"s": "sm-unit5-topic6", "t": "Challenges in Strategic Management", "c": "Strategic Management", "k": "topic", "x": "unit 5 unit V"}, {"s": "sm-unit5-assignments", "t": "Unit V — Assignments", "c": "Strategic Management", "k": "assignments", "x": "unit 5 unit V"}, {"s": "sm-unit5-quiz", "t": "Unit V — Quiz", "c": "Strategic Management", "k": "quiz", "x": "unit 5 unit V"}, {"s": "sm-unit5-notes", "t": "Unit V &mdash; Key Notes", "c": "Strategic Management", "k": "notes", "x": "unit 5 unit V"}, {"s": "sm-unit5-case-study", "t": "Case Study — Applying Unit V", "c": "Strategic Management", "k": "case-study", "x": "unit 5 unit V"}, {"s": "sm-assessments", "t": "Continuous Internal Assessment", "c": "Strategic Management", "k": "overview", "x": ""}, {"s": "sm-assessments-cia1", "t": "Continuous Internal Assessment Test I", "c": "Strategic Management", "k": "cia1", "x": ""}, {"s": "sm-assessments-cia2", "t": "Continuous Internal Assessment Test II", "c": "Strategic Management", "k": "cia2", "x": ""}, {"s": "sm-assessments-cia3", "t": "Continuous Internal Assessment Test III", "c": "Strategic Management", "k": "cia3", "x": ""}, {"s": "bfs", "t": "Banking and Financial Services", "c": "Banking & Financial Services", "k": "overview", "x": ""}, {"s": "bfs-unit1", "t": "Unit I — Introduction to Indian Banking System", "c": "Banking & Financial Services", "k": "overview", "x": "unit 1 unit I"}, {"s": "bfs-unit1-topic1", "t": "Overview of the Indian Banking System: Structure and Functions", "c": "Banking & Financial Services", "k": "topic", "x": "unit 1 unit I"}, {"s": "bfs-unit1-topic2", "t": "Key Regulations I: The RBI Act and Banking Regulation Act", "c": "Banking & Financial Services", "k": "topic", "x": "unit 1 unit I"}, {"s": "bfs-unit1-topic3", "t": "Key Regulations II: The Negotiable Instruments Act and CRR/SLR Provisions", "c": "Banking & Financial Services", "k": "topic", "x": "unit 1 unit I"}, {"s": "bfs-unit1-topic4", "t": "Provisions for Non-Performing Assets (NPAs)", "c": "Banking & Financial Services", "k": "topic", "x": "unit 1 unit I"}, {"s": "bfs-unit1-topic5", "t": "Bank Financial Statements: Balance Sheet and Income Statement", "c": "Banking & Financial Services", "k": "topic", "x": "unit 1 unit I"}, {"s": "bfs-unit1-topic6", "t": "The CAMELS Rating Framework", "c": "Banking & Financial Services", "k": "topic", "x": "unit 1 unit I"}, {"s": "bfs-unit1-assignments", "t": "Unit I — Assignments", "c": "Banking & Financial Services", "k": "assignments", "x": "unit 1 unit I"}, {"s": "bfs-unit1-quiz", "t": "Unit I — Quiz", "c": "Banking & Financial Services", "k": "quiz", "x": "unit 1 unit I"}, {"s": "bfs-unit1-notes", "t": "Unit I &mdash; Key Notes", "c": "Banking & Financial Services", "k": "notes", "x": "unit 1 unit I"}, {"s": "bfs-unit1-case-study", "t": "Case Study — Applying Unit I", "c": "Banking & Financial Services", "k": "case-study", "x": "unit 1 unit I"}, {"s": "bfs-unit2", "t": "Unit II — Products &amp; Risk Management", "c": "Banking & Financial Services", "k": "overview", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic1", "t": "Capital Adequacy: The Basel Framework and CRAR", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic2", "t": "Deposit and Non-Deposit Sources: Designing and Pricing Deposit Schemes", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic3", "t": "Loan Management and Investment Management", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic4", "t": "Asset and Liability Management (ALM)", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic5", "t": "Financial Distress: Signals to Borrowers and Predictive Models", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic6", "t": "Risk Management I: Interest Rate, Forex, and Credit Risk", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic7", "t": "Risk Management II: Market, Operational, and Solvency Risk; Current Issues on NPAs", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-topic8", "t": "M&amp;A of Banks into the Securities Market", "c": "Banking & Financial Services", "k": "topic", "x": "unit 2 unit II"}, {"s": "bfs-unit2-assignments", "t": "Unit II — Assignments", "c": "Banking & Financial Services", "k": "assignments", "x": "unit 2 unit II"}, {"s": "bfs-unit2-quiz", "t": "Unit II — Quiz", "c": "Banking & Financial Services", "k": "quiz", "x": "unit 2 unit II"}, {"s": "bfs-unit2-notes", "t": "Unit II &mdash; Key Notes", "c": "Banking & Financial Services", "k": "notes", "x": "unit 2 unit II"}, {"s": "bfs-unit2-case-study", "t": "Case Study — Applying Unit II", "c": "Banking & Financial Services", "k": "case-study", "x": "unit 2 unit II"}, {"s": "bfs-unit3", "t": "Unit III — Developments in Banking Technology", "c": "Banking & Financial Services", "k": "overview", "x": "unit 3 unit III"}, {"s": "bfs-unit3-topic1", "t": "Payment Systems in India", "c": "Banking & Financial Services", "k": "topic", "x": "unit 3 unit III"}, {"s": "bfs-unit3-topic2", "t": "Plastic Money and E-Money", "c": "Banking & Financial Services", "k": "topic", "x": "unit 3 unit III"}, {"s": "bfs-unit3-topic3", "t": "Forecasting Cash Demand at ATMs", "c": "Banking & Financial Services", "k": "topic", "x": "unit 3 unit III"}, {"s": "bfs-unit3-topic4", "t": "The Information Technology Act, 2000", "c": "Banking & Financial Services", "k": "topic", "x": "unit 3 unit III"}, {"s": "bfs-unit3-topic5", "t": "RBI's Financial Sector Technology Vision", "c": "Banking & Financial Services", "k": "topic", "x": "unit 3 unit III"}, {"s": "bfs-unit3-topic6", "t": "Security Threats in E-Banking", "c": "Banking & Financial Services", "k": "topic", "x": "unit 3 unit III"}, {"s": "bfs-unit3-assignments", "t": "Unit III — Assignments", "c": "Banking & Financial Services", "k": "assignments", "x": "unit 3 unit III"}, {"s": "bfs-unit3-quiz", "t": "Unit III — Quiz", "c": "Banking & Financial Services", "k": "quiz", "x": "unit 3 unit III"}, {"s": "bfs-unit3-notes", "t": "Unit III &mdash; Key Notes", "c": "Banking & Financial Services", "k": "notes", "x": "unit 3 unit III"}, {"s": "bfs-unit3-case-study", "t": "Case Study — Applying Unit III", "c": "Banking & Financial Services", "k": "case-study", "x": "unit 3 unit III"}, {"s": "bfs-unit4", "t": "Unit IV — Asset-Based Financial Services", "c": "Banking & Financial Services", "k": "overview", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-topic1", "t": "Non-Banking Financial Companies (NBFCs): RBI Framework", "c": "Banking & Financial Services", "k": "topic", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-topic2", "t": "Leasing and Hire Purchase: Financial Evaluation", "c": "Banking & Financial Services", "k": "topic", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-topic3", "t": "Venture Capital and Private Equity", "c": "Banking & Financial Services", "k": "topic", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-topic4", "t": "Housing Finance", "c": "Banking & Financial Services", "k": "topic", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-topic5", "t": "IPO and Underwriting", "c": "Banking & Financial Services", "k": "topic", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-topic6", "t": "Mutual Funds", "c": "Banking & Financial Services", "k": "topic", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-assignments", "t": "Unit IV — Assignments", "c": "Banking & Financial Services", "k": "assignments", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-quiz", "t": "Unit IV — Quiz", "c": "Banking & Financial Services", "k": "quiz", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-notes", "t": "Unit IV &mdash; Key Notes", "c": "Banking & Financial Services", "k": "notes", "x": "unit 4 unit IV"}, {"s": "bfs-unit4-case-study", "t": "Case Study — Applying Unit IV", "c": "Banking & Financial Services", "k": "case-study", "x": "unit 4 unit IV"}, {"s": "bfs-unit5", "t": "Unit V — Insurance and Financial Services", "c": "Banking & Financial Services", "k": "overview", "x": "unit 5 unit V"}, {"s": "bfs-unit5-topic1", "t": "Insurance: Basic Concepts and Contract Principles", "c": "Banking & Financial Services", "k": "topic", "x": "unit 5 unit V"}, {"s": "bfs-unit5-topic2", "t": "IRDA and India's Insurance Sector", "c": "Banking & Financial Services", "k": "topic", "x": "unit 5 unit V"}, {"s": "bfs-unit5-topic3", "t": "Types of Insurance Products", "c": "Banking & Financial Services", "k": "topic", "x": "unit 5 unit V"}, {"s": "bfs-unit5-topic4", "t": "Bill Discounting and Factoring", "c": "Banking & Financial Services", "k": "topic", "x": "unit 5 unit V"}, {"s": "bfs-unit5-topic5", "t": "Merchant Banking", "c": "Banking & Financial Services", "k": "topic", "x": "unit 5 unit V"}, {"s": "bfs-unit5-topic6", "t": "Role of SEBI", "c": "Banking & Financial Services", "k": "topic", "x": "unit 5 unit V"}, {"s": "bfs-unit5-assignments", "t": "Unit V — Assignments", "c": "Banking & Financial Services", "k": "assignments", "x": "unit 5 unit V"}, {"s": "bfs-unit5-quiz", "t": "Unit V — Quiz", "c": "Banking & Financial Services", "k": "quiz", "x": "unit 5 unit V"}, {"s": "bfs-unit5-notes", "t": "Unit V &mdash; Key Notes", "c": "Banking & Financial Services", "k": "notes", "x": "unit 5 unit V"}, {"s": "bfs-unit5-case-study", "t": "Case Study — Applying Unit V", "c": "Banking & Financial Services", "k": "case-study", "x": "unit 5 unit V"}, {"s": "payroll", "t": "Payroll Management", "c": "Payroll", "k": "overview", "x": ""}, {"s": "payroll-unit1", "t": "Unit I &mdash; Introduction to Payroll Management", "c": "Payroll", "k": "overview", "x": "unit 1 unit I"}, {"s": "payroll-unit1-topic1", "t": "Meaning, Definition and Payroll Terminology", "c": "Payroll", "k": "topic", "x": "unit 1 unit I"}, {"s": "payroll-unit1-topic2", "t": "Stages of the Payroll Process", "c": "Payroll", "k": "topic", "x": "unit 1 unit I"}, {"s": "payroll-unit1-topic3", "t": "Skills Required for Payroll Management", "c": "Payroll", "k": "topic", "x": "unit 1 unit I"}, {"s": "payroll-unit1-topic4", "t": "Excel-Based Payroll Management", "c": "Payroll", "k": "topic", "x": "unit 1 unit I"}, {"s": "payroll-unit1-topic5", "t": "Payroll Outsourcing", "c": "Payroll", "k": "topic", "x": "unit 1 unit I"}, {"s": "payroll-unit1-topic6", "t": "Employee Forms, Employee Information and Time/Attendance Sheets", "c": "Payroll", "k": "topic", "x": "unit 1 unit I"}, {"s": "payroll-unit1-assignments", "t": "Unit I &mdash; Assignments", "c": "Payroll", "k": "assignments", "x": "unit 1 unit I"}, {"s": "payroll-unit1-quiz", "t": "Unit I &mdash; Quiz", "c": "Payroll", "k": "quiz", "x": "unit 1 unit I"}, {"s": "payroll-unit1-notes", "t": "Unit I &mdash; Key Notes", "c": "Payroll", "k": "notes", "x": "unit 1 unit I"}, {"s": "payroll-unit1-case-study", "t": "Case Study &mdash; Applying Unit I", "c": "Payroll", "k": "case-study", "x": "unit 1 unit I"}, {"s": "payroll-unit2", "t": "Unit II &mdash; Laws and Practices", "c": "Payroll", "k": "overview", "x": "unit 2 unit II"}, {"s": "payroll-unit2-topic1", "t": "Employment Laws Governing Payroll", "c": "Payroll", "k": "topic", "x": "unit 2 unit II"}, {"s": "payroll-unit2-topic2", "t": "Payroll Tax Regulations", "c": "Payroll", "k": "topic", "x": "unit 2 unit II"}, {"s": "payroll-unit2-topic3", "t": "The Payment of Wages Act and Payment of Bonus Act", "c": "Payroll", "k": "topic", "x": "unit 2 unit II"}, {"s": "payroll-unit2-topic4", "t": "The Payment of Gratuity Act and Employee Rights", "c": "Payroll", "k": "topic", "x": "unit 2 unit II"}, {"s": "payroll-unit2-topic5", "t": "Regulatory Compliance Framework", "c": "Payroll", "k": "topic", "x": "unit 2 unit II"}, {"s": "payroll-unit2-topic6", "t": "The Payroll Cycle in Practice", "c": "Payroll", "k": "topic", "x": "unit 2 unit II"}, {"s": "payroll-unit2-assignments", "t": "Unit II &mdash; Assignments", "c": "Payroll", "k": "assignments", "x": "unit 2 unit II"}, {"s": "payroll-unit2-quiz", "t": "Unit II &mdash; Quiz", "c": "Payroll", "k": "quiz", "x": "unit 2 unit II"}, {"s": "payroll-unit2-notes", "t": "Unit II &mdash; Key Notes", "c": "Payroll", "k": "notes", "x": "unit 2 unit II"}, {"s": "payroll-unit2-case-study", "t": "Case Study &mdash; Applying Unit II", "c": "Payroll", "k": "case-study", "x": "unit 2 unit II"}, {"s": "payroll-unit3", "t": "Unit III &mdash; Basic Payroll Process", "c": "Payroll", "k": "overview", "x": "unit 3 unit III"}, {"s": "payroll-unit3-topic1", "t": "Calculating Gross Pay", "c": "Payroll", "k": "topic", "x": "unit 3 unit III"}, {"s": "payroll-unit3-topic2", "t": "Key Principles of Payments and Deductions", "c": "Payroll", "k": "topic", "x": "unit 3 unit III"}, {"s": "payroll-unit3-topic3", "t": "Payroll Accounting and Journal Entries", "c": "Payroll", "k": "topic", "x": "unit 3 unit III"}, {"s": "payroll-unit3-topic4", "t": "Account Reconciliation in Payroll", "c": "Payroll", "k": "topic", "x": "unit 3 unit III"}, {"s": "payroll-unit3-topic5", "t": "Salary Break-up and Cost to Company (CTC) Structuring", "c": "Payroll", "k": "topic", "x": "unit 3 unit III"}, {"s": "payroll-unit3-topic6", "t": "Methods of Paying Employees", "c": "Payroll", "k": "topic", "x": "unit 3 unit III"}, {"s": "payroll-unit3-assignments", "t": "Unit III &mdash; Assignments", "c": "Payroll", "k": "assignments", "x": "unit 3 unit III"}, {"s": "payroll-unit3-quiz", "t": "Unit III &mdash; Quiz", "c": "Payroll", "k": "quiz", "x": "unit 3 unit III"}, {"s": "payroll-unit3-notes", "t": "Unit III &mdash; Key Notes", "c": "Payroll", "k": "notes", "x": "unit 3 unit III"}, {"s": "payroll-unit3-case-study", "t": "Case Study &mdash; Applying Unit III", "c": "Payroll", "k": "case-study", "x": "unit 3 unit III"}, {"s": "payroll-unit4", "t": "Unit IV &mdash; Payroll Software", "c": "Payroll", "k": "overview", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-topic1", "t": "Overview of Payroll Software", "c": "Payroll", "k": "topic", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-topic2", "t": "Selecting and Implementing Payroll Software", "c": "Payroll", "k": "topic", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-topic3", "t": "Software Training and Change Management", "c": "Payroll", "k": "topic", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-topic4", "t": "Payroll Reports", "c": "Payroll", "k": "topic", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-topic5", "t": "Compliance Issues in Payroll Software", "c": "Payroll", "k": "topic", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-topic6", "t": "Data Security and Integration in Payroll Systems", "c": "Payroll", "k": "topic", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-assignments", "t": "Unit IV &mdash; Assignments", "c": "Payroll", "k": "assignments", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-quiz", "t": "Unit IV &mdash; Quiz", "c": "Payroll", "k": "quiz", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-notes", "t": "Unit IV &mdash; Key Notes", "c": "Payroll", "k": "notes", "x": "unit 4 unit IV"}, {"s": "payroll-unit4-case-study", "t": "Case Study &mdash; Applying Unit IV", "c": "Payroll", "k": "case-study", "x": "unit 4 unit IV"}, {"s": "payroll-unit5", "t": "Unit V &mdash; Advanced Payroll", "c": "Payroll", "k": "overview", "x": "unit 5 unit V"}, {"s": "payroll-unit5-topic1", "t": "International Payroll", "c": "Payroll", "k": "topic", "x": "unit 5 unit V"}, {"s": "payroll-unit5-topic2", "t": "Payroll for Contractors and Gig Workers", "c": "Payroll", "k": "topic", "x": "unit 5 unit V"}, {"s": "payroll-unit5-topic3", "t": "Real-Life Payroll Scenarios", "c": "Payroll", "k": "topic", "x": "unit 5 unit V"}, {"s": "payroll-unit5-topic4", "t": "Payroll Report Writing", "c": "Payroll", "k": "topic", "x": "unit 5 unit V"}, {"s": "payroll-unit5-topic5", "t": "MIS Reports in Excel", "c": "Payroll", "k": "topic", "x": "unit 5 unit V"}, {"s": "payroll-unit5-topic6", "t": "Emerging Trends in Payroll Management", "c": "Payroll", "k": "topic", "x": "unit 5 unit V"}, {"s": "payroll-unit5-assignments", "t": "Unit V &mdash; Assignments", "c": "Payroll", "k": "assignments", "x": "unit 5 unit V"}, {"s": "payroll-unit5-quiz", "t": "Unit V &mdash; Quiz", "c": "Payroll", "k": "quiz", "x": "unit 5 unit V"}, {"s": "payroll-unit5-notes", "t": "Unit V &mdash; Key Notes", "c": "Payroll", "k": "notes", "x": "unit 5 unit V"}, {"s": "payroll-unit5-case-study", "t": "Case Study &mdash; Course Capstone", "c": "Payroll", "k": "case-study", "x": "unit 5 unit V"}];
+  var box = document.getElementById('nb-search');
+  var inp = document.getElementById('nb-search-input');
+  var out = document.getElementById('nb-search-results');
+  var btn = document.getElementById('nb-search-btn');
+  var sel = -1, cur = [];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+  function open() { box.classList.add('open'); inp.value = ''; render(''); setTimeout(function () { inp.focus(); }, 0); }
+  function close() { box.classList.remove('open'); sel = -1; }
+  function render(q) {
+    var terms = q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    cur = !terms.length ? IDX.slice(0, 50) : IDX.filter(function (r) {
+      var hay = (r.t + ' ' + r.c + ' ' + r.k + ' ' + (r.x || '')).toLowerCase();
+      return terms.every(function (t) { return hay.indexOf(t) >= 0; });
+    }).slice(0, 50);
+    sel = cur.length ? 0 : -1;
+    if (!cur.length) { out.innerHTML = '<li class="empty">No matches</li>'; return; }
+    out.innerHTML = cur.map(function (r, i) {
+      var meta = r.c + (r.k && r.k !== 'overview' && r.k !== 'hub' ? ' \u00b7 ' + r.k : '');
+      return '<li><a href="#' + r.s + '" class="' + (i === sel ? 'sel' : '') + '">' +
+        '<span class="t">' + esc(r.t) + '</span>  <span class="m">' + esc(meta) + '</span></a></li>';
+    }).join('');
+  }
+  function paint() {
+    var as = out.querySelectorAll('a');
+    for (var i = 0; i < as.length; i++) as[i].className = (i === sel ? 'sel' : '');
+    if (as[sel]) as[sel].scrollIntoView({ block: 'nearest' });
+  }
+  function go(i) { if (cur[i]) { location.hash = '#' + cur[i].s; close(); } }
+  btn.addEventListener('click', open);
+  inp.addEventListener('input', function () { render(inp.value); });
+  out.addEventListener('click', function (e) { var a = e.target && e.target.closest ? e.target.closest('a') : null; if (a) close(); });
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (!box.classList.contains('open')) {
+      if (e.key === '/' && tag !== 'input' && tag !== 'textarea' && tag !== 'select') { e.preventDefault(); open(); }
+      return;
+    }
+    if (e.key === 'Escape') { close(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, cur.length - 1); paint(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); paint(); }
+    else if (e.key === 'Enter') { e.preventDefault(); go(sel); }
+  });
 })();
 </script>
 
