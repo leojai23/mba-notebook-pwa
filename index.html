@@ -119,6 +119,37 @@ body { margin: 0; background: #eceaf2; }
   .theme-picker button { flex: 1; padding: 0.3rem 0.2rem; font-size: 0.6rem; }
 }
 
+/* ---- collapsible unit-topic sidebar on mobile ---- */
+.sidebar-toggle { display: none; }
+@media (max-width: 720px) {
+  .sidebar {
+    position: static;
+    top: auto;
+    max-height: 2.9rem;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+  .sidebar.open { max-height: 2000px; }
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    width: 100%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+    margin-bottom: 0.8rem;
+    font: 700 0.85rem/1 Arial, sans-serif;
+    cursor: pointer;
+    text-align: left;
+  }
+  .sidebar-toggle .chev { transition: transform 0.25s ease; font-size: 0.9rem; }
+  .sidebar.open .sidebar-toggle .chev { transform: rotate(180deg); }
+}
+
 * { box-sizing: border-box; }
 
 .page {
@@ -867,6 +898,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -1046,6 +1078,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -1227,6 +1260,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -1428,6 +1462,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -1599,6 +1634,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -1779,6 +1815,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -1987,6 +2024,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -2063,6 +2101,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -2280,6 +2319,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -2412,6 +2452,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -2616,6 +2657,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -2780,6 +2822,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -2937,6 +2980,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -3077,6 +3121,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -3233,6 +3278,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -3373,6 +3419,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -3518,6 +3565,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -3593,6 +3641,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -3810,6 +3859,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -3935,6 +3985,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -4141,6 +4192,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -4295,6 +4347,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -4446,6 +4499,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -4592,6 +4646,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -4742,6 +4797,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -4876,6 +4932,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -5025,6 +5082,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -5179,6 +5237,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -5255,6 +5314,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -5473,6 +5533,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -5610,6 +5671,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -5817,6 +5879,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -5954,6 +6017,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -6117,6 +6181,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -6282,6 +6347,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -6425,6 +6491,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -6571,6 +6638,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -6707,6 +6775,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -6864,6 +6933,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -6940,6 +7010,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -7158,6 +7229,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -7303,6 +7375,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -7506,6 +7579,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -7643,6 +7717,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -7780,6 +7855,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -7929,6 +8005,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -8059,6 +8136,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -8193,6 +8271,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -8330,6 +8409,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -8406,6 +8486,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -8623,6 +8704,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -8746,6 +8828,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#sm-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -9295,6 +9378,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -9444,6 +9528,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -9600,6 +9685,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -9750,6 +9836,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -9922,6 +10009,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -10081,6 +10169,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -10244,6 +10333,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -10324,6 +10414,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -10541,6 +10632,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -10671,6 +10763,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -10812,6 +10905,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -10971,6 +11065,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -11115,6 +11210,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -11278,6 +11374,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -11452,6 +11549,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -11628,6 +11726,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -11784,6 +11883,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -11949,6 +12049,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -12118,6 +12219,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -12198,6 +12300,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -12417,6 +12520,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -12571,6 +12675,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -12721,6 +12826,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -12884,6 +12990,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -13048,6 +13155,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -13225,6 +13333,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -13365,6 +13474,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -13504,6 +13614,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -13660,6 +13771,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -13739,6 +13851,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -13956,6 +14069,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -14088,6 +14202,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -14227,6 +14342,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -14381,6 +14497,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -14534,6 +14651,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -14681,6 +14799,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -14821,6 +14940,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -14975,6 +15095,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -15125,6 +15246,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -15205,6 +15327,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -15422,6 +15545,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -15553,6 +15677,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -15692,6 +15817,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -15837,6 +15963,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -15997,6 +16124,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -16146,6 +16274,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -16294,6 +16423,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -16440,6 +16570,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -16582,6 +16713,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -16664,6 +16796,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -16881,6 +17014,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -17012,6 +17146,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#bfs-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -17281,6 +17416,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -17396,6 +17532,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -17505,6 +17642,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -17613,6 +17751,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -17727,6 +17866,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -17845,6 +17985,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -17952,6 +18093,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -18033,6 +18175,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -18251,6 +18394,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -18375,6 +18519,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit I Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit1">&larr; Unit I overview</a>
     <h3>Unit I Topics</h3>
     <ol>
@@ -18572,6 +18717,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -18677,6 +18823,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -18781,6 +18928,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -18887,6 +19035,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -18995,6 +19144,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -19104,6 +19254,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -19206,6 +19357,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -19281,6 +19433,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -19499,6 +19652,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -19620,6 +19774,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit II Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit2">&larr; Unit II overview</a>
     <h3>Unit II Topics</h3>
     <ol>
@@ -19814,6 +19969,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -19930,6 +20086,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20043,6 +20200,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20161,6 +20319,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20267,6 +20426,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20377,6 +20537,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20480,6 +20641,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20560,6 +20722,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20778,6 +20941,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -20921,6 +21085,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit III Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit3">&larr; Unit III overview</a>
     <h3>Unit III Topics</h3>
     <ol>
@@ -21118,6 +21283,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -21227,6 +21393,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -21355,6 +21522,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -21466,6 +21634,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -21572,6 +21741,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -21673,6 +21843,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -21787,6 +21958,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -21869,6 +22041,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -22087,6 +22260,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -22211,6 +22385,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit IV Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit4">&larr; Unit IV overview</a>
     <h3>Unit IV Topics</h3>
     <ol>
@@ -22405,6 +22580,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -22511,6 +22687,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -22619,6 +22796,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -22720,6 +22898,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -22830,6 +23009,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -22940,6 +23120,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -23038,6 +23219,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -23111,6 +23293,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -23329,6 +23512,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -23452,6 +23636,7 @@ footer.site-footer {
 
 <div class="layout">
   <nav class="sidebar">
+    <button type="button" class="sidebar-toggle" aria-expanded="false"><span class="sidebar-toggle-label">Unit V Topics</span><span class="chev" aria-hidden="true">&#9662;</span></button>
     <a class="back-link" href="#payroll-unit5">&larr; Unit V overview</a>
     <h3>Unit V Topics</h3>
     <ol>
@@ -24225,6 +24410,22 @@ footer.site-footer {
   var saved = "day";
   try { saved = localStorage.getItem(KEY) || "day"; } catch (e) {}
   apply(saved);
+})();
+</script>
+
+
+
+<script>
+(function () {
+  document.addEventListener("click", function (e) {
+    var b = e.target;
+    while (b && b.classList && !b.classList.contains("sidebar-toggle")) b = b.parentNode;
+    if (!b || !b.classList || !b.classList.contains("sidebar-toggle")) return;
+    var nav = b.parentNode;
+    if (!nav || !nav.classList) return;
+    var open = nav.classList.toggle("open");
+    b.setAttribute("aria-expanded", open ? "true" : "false");
+  });
 })();
 </script>
 
