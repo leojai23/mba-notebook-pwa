@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mba-notebook-d7ca84ee8a';
+const CACHE_NAME = 'mba-notebook-622de0ea17';
 const ASSETS = [
   './',
   './index.html',
