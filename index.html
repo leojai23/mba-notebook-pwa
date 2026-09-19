@@ -32458,11 +32458,17 @@ footer.site-footer {
     rec.addEventListener('end', function () { stopListening(); if (micMsg && micMsg.textContent === 'Listening\u2026') showMsg(''); });
     rec.addEventListener('error', function (e) {
       stopListening();
-      var msg = e.error === 'not-allowed' || e.error === 'service-not-allowed'
-        ? 'Microphone access blocked \u2014 allow it in the browser\u2019s site settings.'
-        : e.error === 'no-speech' ? 'Didn\u2019t catch that \u2014 try again.'
-        : 'Voice search unavailable right now.';
-      showMsg(msg);
+      if (window.console && console.warn) console.warn('Voice search error:', e.error);
+      if (e.error === 'aborted') return;   // user/browser stopped it - not a failure worth a message
+      var reasons = {
+        'not-allowed': 'Microphone access blocked \u2014 allow it in the browser\u2019s site settings, then try again.',
+        'service-not-allowed': 'Microphone access blocked \u2014 allow it in the browser\u2019s site settings, then try again.',
+        'no-speech': 'Didn\u2019t catch that \u2014 try again.',
+        'audio-capture': 'No microphone found on this device.',
+        'network': 'Voice search needs an internet connection (it sends audio to a speech service) \u2014 check your connection and try again.',
+        'language-not-supported': 'Voice search isn\u2019t available in this language on your browser.'
+      };
+      showMsg(reasons[e.error] || ('Voice search unavailable (' + (e.error || 'unknown error') + ').'));
     });
     rec.addEventListener('result', function (e) {
       var t = '';
