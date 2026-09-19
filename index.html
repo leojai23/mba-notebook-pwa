@@ -543,10 +543,22 @@ footer.site-footer {
   border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.35);
   overflow: hidden; font-family: Arial, sans-serif;
 }
+#nb-search-row { display: flex; align-items: center; border-bottom: 1px solid #ddd; }
 #nb-search input {
-  width: 100%; border: 0; padding: 1rem 1.1rem; font-size: 1.05rem;
-  background: #fff; color: #222; border-bottom: 1px solid #ddd; outline: none;
+  width: 100%; flex: 1; min-width: 0; border: 0; padding: 1rem 1.1rem; font-size: 1.05rem;
+  background: #fff; color: #222; outline: none;
 }
+#nb-search-mic {
+  flex: none; width: 42px; height: 42px; margin-right: 0.5rem; border: 0; border-radius: 50%;
+  background: transparent; color: #888; cursor: pointer; display: none;
+  align-items: center; justify-content: center;
+}
+#nb-search-mic.available { display: flex; }
+#nb-search-mic:hover { background: #eee; color: #222; }
+#nb-search-mic.listening { background: #e0342b; color: #fff; animation: nbMicPulse 1.2s ease-in-out infinite; }
+@keyframes nbMicPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(224,52,43,0.45); } 50% { box-shadow: 0 0 0 8px rgba(224,52,43,0); } }
+#nb-mic-msg { padding: 0 1.1rem; font-size: 0.78rem; color: #e0342b; min-height: 0; }
+#nb-mic-msg:empty { display: none; }
 #nb-search ul { list-style: none; margin: 0; padding: 0; max-height: 62vh; overflow-y: auto; }
 #nb-search li a { display: block; padding: 0.65rem 1.1rem; text-decoration: none; color: #222; border-bottom: 1px solid #eee; }
 #nb-search li a:hover, #nb-search li a.sel { background: #eef; }
@@ -555,7 +567,9 @@ footer.site-footer {
 #nb-search .empty { padding: 1rem 1.1rem; color: #777; font-size: 0.9rem; }
 :root[data-theme="dark"] #nb-search .box, :root[data-theme="night"] #nb-search .box,
 :root[data-theme="dark"] #nb-search input, :root[data-theme="night"] #nb-search input { background: #1e2128; color: #e2e6ef; }
-:root[data-theme="dark"] #nb-search input, :root[data-theme="night"] #nb-search input { border-bottom-color: #31353f; }
+:root[data-theme="dark"] #nb-search-row, :root[data-theme="night"] #nb-search-row { border-bottom-color: #31353f; }
+:root[data-theme="dark"] #nb-search-mic, :root[data-theme="night"] #nb-search-mic { color: #9aa1b0; }
+:root[data-theme="dark"] #nb-search-mic:hover, :root[data-theme="night"] #nb-search-mic:hover { background: #2a2f3a; color: #e2e6ef; }
 :root[data-theme="dark"] #nb-search li a, :root[data-theme="night"] #nb-search li a { color: #e2e6ef; border-bottom-color: #2b303a; }
 :root[data-theme="dark"] #nb-search li a:hover, :root[data-theme="dark"] #nb-search li a.sel,
 :root[data-theme="night"] #nb-search li a:hover, :root[data-theme="night"] #nb-search li a.sel { background: #2a2f3a; }
@@ -32343,7 +32357,7 @@ footer.site-footer {
 <button id="nb-search-btn" class="nb-fab" type="button" data-tip="Search  ( / )" aria-label="Search the notebook"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
 <button id="nb-print-btn" class="nb-fab" type="button" aria-haspopup="true" aria-expanded="false" data-tip="Print" aria-label="Print"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="1"/><path d="M8 14h8v7H8z"/></svg></button>
 <div id="nb-print-menu" role="menu"></div>
-<div id="nb-search" role="dialog" aria-label="Search"><div class="box"><input type="search" id="nb-search-input" autocomplete="off" spellcheck="false" placeholder="Search topics, units, notes…  (press / )"><ul id="nb-search-results"></ul></div></div>
+<div id="nb-search" role="dialog" aria-label="Search"><div class="box"><div id="nb-search-row"><input type="search" id="nb-search-input" autocomplete="off" spellcheck="false" placeholder="Search topics, units, notes…  (press / )"><button type="button" id="nb-search-mic" aria-label="Search by voice" title="Search by voice"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></button></div><div id="nb-mic-msg" aria-live="polite"></div><ul id="nb-search-results"></ul></div></div>
 
 
 <script>
@@ -32379,9 +32393,10 @@ footer.site-footer {
   var out = document.getElementById('nb-search-results');
   var btn = document.getElementById('nb-search-btn');
   var sel = -1, cur = [];
+  var stopRec = function () {};
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
   function open() { box.classList.add('open'); inp.value = ''; render(''); setTimeout(function () { inp.focus(); }, 0); }
-  function close() { box.classList.remove('open'); sel = -1; }
+  function close() { stopRec(); box.classList.remove('open'); sel = -1; }
   function snippet(h, terms) {
     if (!h) return '';
     var low = h.toLowerCase();
@@ -32417,6 +32432,49 @@ footer.site-footer {
     if (as[sel]) as[sel].scrollIntoView({ block: 'nearest' });
   }
   function go(i) { if (cur[i]) { location.hash = '#' + cur[i].s; close(); } }
+
+  // ---- voice input (Web Speech API; Chrome/Edge/Android - no external service) ----
+  var mic = document.getElementById('nb-search-mic');
+  var micMsg = document.getElementById('nb-mic-msg');
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var showMsg = function (t) { if (micMsg) micMsg.textContent = t || ''; };
+  if (mic && SR) {
+    mic.classList.add('available');
+    var rec = new SR();
+    rec.lang = 'en-IN';
+    rec.interimResults = true;
+    rec.maxAlternatives = 1;
+    rec.continuous = false;
+    var listening = false;
+    var stopListening = function () { listening = false; mic.classList.remove('listening'); };
+    stopRec = function () { if (listening) { try { rec.stop(); } catch (err) {} stopListening(); } };
+    mic.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (listening) { rec.stop(); return; }
+      showMsg('');
+      try { rec.start(); } catch (err) { stopListening(); }
+    });
+    rec.addEventListener('start', function () { listening = true; mic.classList.add('listening'); showMsg('Listening\u2026'); });
+    rec.addEventListener('end', function () { stopListening(); if (micMsg && micMsg.textContent === 'Listening\u2026') showMsg(''); });
+    rec.addEventListener('error', function (e) {
+      stopListening();
+      var msg = e.error === 'not-allowed' || e.error === 'service-not-allowed'
+        ? 'Microphone access blocked \u2014 allow it in the browser\u2019s site settings.'
+        : e.error === 'no-speech' ? 'Didn\u2019t catch that \u2014 try again.'
+        : 'Voice search unavailable right now.';
+      showMsg(msg);
+    });
+    rec.addEventListener('result', function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) t += e.results[i][0].transcript;
+      inp.value = t;
+      render(t);
+      if (e.results[e.results.length - 1].isFinal) showMsg('');
+    });
+  } else if (mic) {
+    mic.style.display = 'none';
+  }
+
   btn.addEventListener('click', open);
   inp.addEventListener('input', function () { render(inp.value); });
   out.addEventListener('click', function (e) { var a = e.target && e.target.closest ? e.target.closest('a') : null; if (a) close(); });
