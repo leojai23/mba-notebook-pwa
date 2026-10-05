@@ -501,6 +501,7 @@ footer.site-footer {
 #notebook-home-btn { bottom: 1.05rem; }
 #nb-print-btn      { bottom: 3.65rem; }
 #nb-search-btn     { bottom: 6.25rem; }
+#nb-settings-btn   { bottom: 8.85rem; }
 .nb-fab::after {
   content: attr(data-tip);
   position: absolute; right: calc(100% + 9px); top: 50%; transform: translateY(-50%);
@@ -574,6 +575,35 @@ footer.site-footer {
 :root[data-theme="dark"] #nb-search li a:hover, :root[data-theme="dark"] #nb-search li a.sel,
 :root[data-theme="night"] #nb-search li a:hover, :root[data-theme="night"] #nb-search li a.sel { background: #2a2f3a; }
 
+/* ---- settings modal (same visual pattern as #nb-search) ---- */
+#nb-settings { position: fixed; inset: 0; z-index: 1000; display: none; background: rgba(0,0,0,0.45); padding: 8vh 1rem 1rem; }
+#nb-settings.open { display: block; }
+#nb-settings .box {
+  max-width: 420px; margin: 0 auto; background: #fff; color: #222;
+  border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  overflow: hidden; font-family: Arial, sans-serif;
+}
+#nb-settings-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 0.9rem 1.1rem; }
+#nb-settings-row span { font-weight: bold; font-size: 1.05rem; }
+#nb-settings-close { border: 0; background: transparent; color: #777; font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 0 0.2rem; }
+#nb-settings-close:hover { color: #222; }
+#nb-settings-body { padding: 1rem 1.1rem 1.2rem; }
+.nb-settings-item { display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 0.92rem; }
+.nb-settings-item .nb-settings-label { color: #555; }
+#nb-settings-version { font-family: Consolas, monospace; font-size: 0.82rem; color: #333; }
+.nb-settings-btn { display: block; width: 100%; text-align: left; border: 1px solid #ddd; background: #fafafa; color: #222; border-radius: 8px; padding: 0.7rem 0.9rem; margin-top: 0.75rem; cursor: pointer; font: 0.92rem Arial, sans-serif; }
+.nb-settings-btn:hover { background: #eef; border-color: #ccd; }
+#nb-settings-closeapp { color: #b02a2a; }
+:root[data-theme="dark"] #nb-settings .box, :root[data-theme="night"] #nb-settings .box { background: #1e2128; color: #e2e6ef; }
+:root[data-theme="dark"] #nb-settings-row, :root[data-theme="night"] #nb-settings-row { border-bottom-color: #31353f; }
+:root[data-theme="dark"] #nb-settings-close, :root[data-theme="night"] #nb-settings-close { color: #9aa1b0; }
+:root[data-theme="dark"] #nb-settings-close:hover, :root[data-theme="night"] #nb-settings-close:hover { color: #e2e6ef; }
+:root[data-theme="dark"] .nb-settings-item, :root[data-theme="night"] .nb-settings-item { border-bottom-color: #2b303a; }
+:root[data-theme="dark"] .nb-settings-item .nb-settings-label, :root[data-theme="night"] .nb-settings-item .nb-settings-label { color: #9aa1b0; }
+:root[data-theme="dark"] #nb-settings-version, :root[data-theme="night"] #nb-settings-version { color: #e2e6ef; }
+:root[data-theme="dark"] .nb-settings-btn, :root[data-theme="night"] .nb-settings-btn { background: #262b35; color: #e2e6ef; border-color: #333a46; }
+:root[data-theme="dark"] .nb-settings-btn:hover, :root[data-theme="night"] .nb-settings-btn:hover { background: #2a2f3a; }
+
 /* ---- All Unit Notes hub ---- */
 .hub-list { list-style: none; padding: 0; margin: 0 0 1rem; }
 .hub-list li { border: 1px solid var(--border); background: var(--bg-panel); border-radius: 8px; margin-bottom: 0.55rem; padding: 0.8rem 1.1rem; box-shadow: var(--shadow); }
@@ -643,7 +673,7 @@ footer.site-footer {
 
 /* ---- print ---- */
 @media print {
-  .nb-fab, #nb-print-menu, #nb-search, .theme-picker,
+  .nb-fab, #nb-print-menu, #nb-search, #nb-settings, .theme-picker,
   .sidebar, .page-nav, .back-link, .nb-pn, #nb-resume { display: none !important; }
   .page[data-print-break] { break-before: page; }
   html, body, .page { background: #fff !important; color: #000 !important; }
@@ -32356,8 +32386,10 @@ footer.site-footer {
 <a id="notebook-home-btn" class="nb-fab" href="#home" data-tip="Notebook Home" aria-label="Notebook Home"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></a>
 <button id="nb-search-btn" class="nb-fab" type="button" data-tip="Search  ( / )" aria-label="Search the notebook"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
 <button id="nb-print-btn" class="nb-fab" type="button" aria-haspopup="true" aria-expanded="false" data-tip="Print" aria-label="Print"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="1"/><path d="M8 14h8v7H8z"/></svg></button>
+<button id="nb-settings-btn" class="nb-fab" type="button" data-tip="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
 <div id="nb-print-menu" role="menu"></div>
 <div id="nb-search" role="dialog" aria-label="Search"><div class="box"><div id="nb-search-row"><input type="search" id="nb-search-input" autocomplete="off" spellcheck="false" placeholder="Search topics, units, notes…  (press / )"><button type="button" id="nb-search-mic" aria-label="Search by voice" title="Search by voice"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></button></div><div id="nb-mic-msg" aria-live="polite"></div><ul id="nb-search-results"></ul></div></div>
+<div id="nb-settings" role="dialog" aria-label="Settings"><div class="box"><div id="nb-settings-row"><span>Settings</span><button type="button" id="nb-settings-close" aria-label="Close settings">&times;</button></div><div id="nb-settings-body"><div class="nb-settings-item"><span class="nb-settings-label">Version</span><span id="nb-settings-version">—</span></div><button type="button" id="nb-settings-update" class="nb-settings-btn">Check for updates</button><button type="button" id="nb-settings-closeapp" class="nb-settings-btn">Close app</button></div></div></div>
 
 
 <script>
@@ -32987,4 +33019,72 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+</script>
+
+<script>
+(function(){
+  var __intentionalClose = false;
+  window.addEventListener('beforeunload', function(e){
+    if (__intentionalClose) return;
+    e.preventDefault();
+    e.returnValue = '';
+  });
+  window.__confirmAppClose = function(){
+    if (confirm('Close this notebook? Your progress is already saved automatically.')) {
+      __intentionalClose = true;
+      window.close();
+    }
+  };
+})();
+</script>
+
+<script>
+window.__checkForUpdates = function(){
+  if (!('serviceWorker' in navigator)) { alert('Service workers are not supported in this browser.'); return; }
+  navigator.serviceWorker.getRegistration().then(function(reg){
+    if (!reg) { alert('No service worker registered.'); return; }
+    reg.update().then(function(){
+      if (reg.waiting) {
+        reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        reg.waiting.addEventListener('statechange', function(){
+          if (reg.waiting === null) location.reload();
+        });
+      } else {
+        alert("You're on the latest version.");
+      }
+    });
+  });
+};
+</script>
+
+<script>
+(function () {
+  var box = document.getElementById('nb-settings');
+  var btn = document.getElementById('nb-settings-btn');
+  var closeBtn = document.getElementById('nb-settings-close');
+  var updateBtn = document.getElementById('nb-settings-update');
+  var closeAppBtn = document.getElementById('nb-settings-closeapp');
+  var versionEl = document.getElementById('nb-settings-version');
+  if (!box || !btn) return;
+
+  function open() {
+    box.classList.add('open');
+    fetch('sw.js').then(function (r) { return r.text(); }).then(function (txt) {
+      var m = txt.match(/CACHE_NAME\s*=\s*['"]([^'"]+)['"]/);
+      if (versionEl) versionEl.textContent = m ? m[1] : 'unknown';
+    }).catch(function () {
+      if (versionEl) versionEl.textContent = 'unavailable';
+    });
+  }
+  function close() { box.classList.remove('open'); }
+
+  btn.addEventListener('click', open);
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && box.classList.contains('open')) close();
+  });
+  if (updateBtn) updateBtn.addEventListener('click', function () { window.__checkForUpdates(); });
+  if (closeAppBtn) closeAppBtn.addEventListener('click', function () { window.__confirmAppClose(); });
+})();
 </script>
